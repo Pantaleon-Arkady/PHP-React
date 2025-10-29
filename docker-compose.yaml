@@ -26,7 +26,6 @@ services:
       - "5173:5173"
     volumes:
       - ./frontend:/app
-      - /app/node_modules   # Prevent overwriting node_modules from host
     networks:
       - app-network
 
