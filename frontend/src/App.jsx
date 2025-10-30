@@ -20,17 +20,23 @@ function App() {
                 :
                 <Container fluid className="row p-5 min-vh-100">
                     <div className="col-md-7 d-flex flex-column border">
-                        <div className="h-50 border">
-
+                        <div className="h-25 border d-flex justify-content-end align-items-end">
+                            <h2 className="border">App Name</h2>
                         </div>
-                        <div className="h-50 border">
-
+                        <div className="h-75 border d-flex justify-content-end">
+                            <div className="w-75 h-75 border">
+                                Poster Card - with info
+                            </div>
                         </div>
                     </div>
-                    <div className="col-md-5 border">
-                        <form></form>
-                        <div>
-                            Please 
+                    <div className="col-md-5 border d-flex align-items-center">
+                        <div className="border h-75 w-75">
+                            <form className="border w-100 h-75">
+
+                            </form>
+                            <div>
+                                Please 
+                            </div>
                         </div>
                     </div>
                 </Container>
