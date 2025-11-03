@@ -35,7 +35,7 @@ function App() {
 
                             </form>
                             <div>
-                                Please 
+                                Please <a>Log in</a> to continue. or <a>Register?</a> changes
                             </div>
                         </div>
                     </div>
