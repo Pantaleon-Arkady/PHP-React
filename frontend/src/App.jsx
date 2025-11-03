@@ -4,12 +4,17 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 700);
+    const [isRegister, setIsRegister] = useState(false);
 
     useEffect(() => {
         const handleScreenSize = () => setIsMobile(window.innerWidth < 768);
         window.addEventListener("resize", handleScreenSize);
         return () => window.removeEventListener("resize", handleScreenSize);
     }, [])
+
+    const toggleForm = () => {
+        setIsRegister(!isRegister);
+    };
 
     return (
         <>
@@ -31,11 +36,13 @@ function App() {
                     </div>
                     <div className="col-md-5 border d-flex align-items-center">
                         <div className="border h-75 w-75">
-                            <form className="border w-100 h-75">
-
-                            </form>
+                            { isRegister ? 
+                                <div>Register</div>
+                                : 
+                                <div>Log in</div>
+                            }
                             <div>
-                                Please <a>Log in</a> to continue. or <a>Register?</a> changes
+                                Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
                             </div>
                         </div>
                     </div>
