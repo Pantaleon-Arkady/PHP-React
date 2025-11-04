@@ -14,7 +14,9 @@ services:
       - app-network
 
   php-fpm:
-    image: php:8.3-fpm
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     volumes:
       - ./backend/projectSrc:/var/www
     networks:
@@ -32,8 +34,6 @@ services:
         published: 5432
         protocol: tcp
     volumes:
-      # - ./docker/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
-      # - ./docker/database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
       - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./backend/database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
     tmpfs:
