@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import RegisterForm from "./forms/register.jsx";
 
 function App() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 700);
@@ -20,7 +21,7 @@ function App() {
         <>
             {isMobile ? 
                 <Container fluid>
-                    Mobile 
+                    Mobile
                 </Container>
                 :
                 <Container fluid className="row p-5 min-vh-100">
@@ -37,7 +38,7 @@ function App() {
                     <div className="col-md-5 border d-flex align-items-center">
                         <div className="border h-75 w-75">
                             { isRegister ? 
-                                <div>Register</div>
+                                <RegisterForm />
                                 : 
                                 <div>Log in</div>
                             }
