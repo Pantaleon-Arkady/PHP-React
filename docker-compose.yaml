@@ -1,4 +1,4 @@
-version: "3.8"
+# version: "3.8"
 
 services:
   nginx:
@@ -19,6 +19,25 @@ services:
       - ./backend/projectSrc:/var/www
     networks:
       - app-network
+  
+  postgres:
+    container_name: db
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_DB=php-app
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=pguser
+    ports:
+      - target: 5432
+        published: 5432
+        protocol: tcp
+    volumes:
+      # - ./docker/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      # - ./docker/database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+      - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./backend/database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    tmpfs:
+      - /var/lib/postgresql/data
 
   frontend:
     build: ./frontend
