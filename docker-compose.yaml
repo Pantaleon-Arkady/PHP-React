@@ -2,6 +2,7 @@
 
 services:
   nginx:
+    container_name: app_nginx
     image: nginx:1.23
     ports:
       - "8080:80"
@@ -14,6 +15,7 @@ services:
       - app-network
 
   php-fpm:
+    container_name: app_php
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -38,6 +40,8 @@ services:
       - ./backend/database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
     tmpfs:
       - /var/lib/postgresql/data
+    networks:
+      - app-network
 
   frontend:
     build: ./frontend
