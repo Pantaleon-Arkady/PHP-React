@@ -32,8 +32,8 @@ class APIData
     {
         $uri = $_SERVER['REQUEST_URI'];
 
-        if (strpos($uri, 'users') !== false) {
-            return 'app_users';
+        if (strpos($uri, 'pr-users') !== false) {
+            return 'app_user';
         } elseif (strpos($uri, 'reminders') !== false) {
             return 'api_reminders';
         } else {
@@ -41,60 +41,43 @@ class APIData
         }
     }
 
-    // public function createData()
-    // {
-    //     $this->addHeaders("full");
-
-    //     try {
-    //         $table = $this->getTableFromUri();
-    //         $input = json_decode(file_get_contents("php://input"), true);
-
-    //         if (empty($input['task'])) {
-    //             http_response_code(400);
-    //             echo json_encode([
-    //                 "success" => false,
-    //                 "error" => "Task field is required"
-    //             ]);
-    //             return;
-    //         }
-
-    //         Database::crudQuery(
-    //             "INSERT INTO {$table} (task) VALUES (:task)",
-    //             ['task' => $input['task']]
-    //         );
-
-    //         $newId = Database::lastInsertId("{$table}_id_seq");
-    //         error_log("lastInsertId returned: " . $newId);
-
-    //         $newTask = Database::fetchAssoc(
-    //             "SELECT * FROM {$table} WHERE id = :id",
-    //             ['id' => $newId]
-    //         );
-    //         error_log("Fetched new task: " . json_encode($newTask));
-
-    //         echo json_encode([
-    //             "success" => true,
-    //             "data" => $newTask
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         http_response_code(500);
-    //         echo json_encode([
-    //             "success" => false,
-    //             "error" => $e->getMessage()
-    //         ]);
-    //     }
-    // }
-
     public function createUser()
     {
         $this->addHeaders("full");
 
-        $data = file_get_contents('php://input');
+        try {
+            $table = $this->getTableFromUri();
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        echo json_encode([
-            'post' => json_decode($data, true),
-            'method' => $_SERVER['REQUEST_METHOD']
-        ]);
+            if (empty($data)) {
+                http_response_code(400);
+                echo json_encode([
+                    "success" => false,
+                    "error" => "Please complete the details"
+                ]);
+                return;
+            }
+
+            Database::crudQuery(
+                "INSERT INTO {$table} 
+                (email, username, password) 
+                VALUES (:email, :username, :password)",
+                [
+                    'email' => $data['email'],
+                    'username' => $data['username'],
+                    'password' => md5($data['password'])
+                ]
+            );
+
+            echo json_encode([
+                'post' => $data,
+                'method' => $_SERVER['REQUEST_METHOD']
+            ]);
+        } catch (\Exception $e){
+            echo json_encode([
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
 }
