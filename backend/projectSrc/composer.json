@@ -3,7 +3,7 @@
     "description": "this backend is mostly used for db",
     "autoload": {
         "psr-4": {
-            "Project\\Composer\\": "src/"
+            "Root\\": "src/"
         }
     },
     "require": {}
