@@ -3,12 +3,14 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 $uri = rtrim(strtok($_SERVER["REQUEST_URI"], '?'), '/');
-echo "Current URI: $uri<br>";
+
+use Root\Controllers\General;
+
+$general = new General();
 
 switch ($uri) {
     case '/trials':
-        echo "Including trials.php<br>";
-        include_once __DIR__ . '/../src/trials.php';
+        $general->usersDisplay();
         break;
 
     case '':
