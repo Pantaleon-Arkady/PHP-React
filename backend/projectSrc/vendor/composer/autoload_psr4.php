@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Project\\Composer\\' => array($baseDir . '/src'),
+    'Root\\' => array($baseDir . '/src'),
 );
