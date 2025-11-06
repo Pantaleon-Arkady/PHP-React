@@ -13,7 +13,7 @@ function RegisterForm({ onCreate }) {
 
         try {
 
-            const result = await createAccount({ 
+            const result = await createAccount({
                 username, email, password
             });
             console.log("POST /user-register result:", result);
@@ -24,43 +24,40 @@ function RegisterForm({ onCreate }) {
     };
 
     return (
-        <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
-            <Form.Control
-                type="email"
-                placeholder="Enter your email here..."
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-        </Form.Group>
+        <Form onSubmit={handleSubmit} className="w-100">
+            <Form.Group className="mb-3">
+                <Form.Control
+                    type="email"
+                    placeholder="Enter your email here..."
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-            <Form.Control
-                type="text"
-                placeholder="Enter a username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-        </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Control
+                    type="text"
+                    placeholder="Enter a username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-            <Form.Control
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-        </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </Form.Group>
 
-        <div className="d-flex justify-content-end mt-3">
-            <Button variant="secondary" className="me-2">
-                Cancel
-            </Button>
-            <Button variant="primary" type="submit">
-                Submit
-            </Button>
-        </div>
-    </Form>
+            <div className="d-flex justify-content-center mt-3">
+                <Button variant="primary" type="submit">
+                    Submit
+                </Button>
+            </div>
+        </Form>
     )
 }
 

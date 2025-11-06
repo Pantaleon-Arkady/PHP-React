@@ -19,9 +19,21 @@ function App() {
 
     return (
         <>
-            {isMobile ? 
-                <Container fluid>
-                    Mobile
+            {isMobile ?
+                <Container fluid className="landing_container_mobile row px-0 mx-0">
+                    <div className="border">
+                        <h3 className="p-2">App Name</h3>
+                    </div>
+                    <div className="border px-3 pt-5 pb-3">
+                        {isRegister ?
+                            <RegisterForm />
+                            :
+                            <div>Log in</div>
+                        }
+                        <div>
+                            Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
+                        </div>
+                    </div>
                 </Container>
                 :
                 <Container fluid className="row p-5 min-vh-100">
@@ -37,9 +49,9 @@ function App() {
                     </div>
                     <div className="col-md-5 border d-flex align-items-center">
                         <div className="border h-75 w-75">
-                            { isRegister ? 
+                            {isRegister ?
                                 <RegisterForm />
-                                : 
+                                :
                                 <div>Log in</div>
                             }
                             <div>

@@ -3,3 +3,11 @@
     margin: 0;
     padding: 0;
 }
+
+@media (max-width: 700px) {
+
+    .landing_container_mobile {
+        background-color: gray;
+    }
+    
+}
