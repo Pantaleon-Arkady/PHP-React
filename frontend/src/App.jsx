@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import RegisterForm from "./forms/register.jsx";
+import LogInForm from "./forms/login.jsx";
 
 function App() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 700);
@@ -28,7 +29,7 @@ function App() {
                         {isRegister ?
                             <RegisterForm />
                             :
-                            <div>Log in</div>
+                            <LogInForm />
                         }
                         <div>
                             Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
@@ -52,7 +53,7 @@ function App() {
                             {isRegister ?
                                 <RegisterForm />
                                 :
-                                <div>Log in</div>
+                                <LogInForm />
                             }
                             <div>
                                 Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
