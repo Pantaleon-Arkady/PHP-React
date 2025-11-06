@@ -80,4 +80,39 @@ class APIData
         }
     }
 
+    public function logInUser()
+    {
+        $this->addHeaders("full");
+
+        try {
+            $table = $this->getTableFromUri();
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $user = Database::fetchAssoc(
+                'SELECT * FROM app_user WHERE (email = :namemail OR username = :namemail) AND password = :password',
+                [
+                    'namemail' => $data['namemail'],
+                    'password' => md5($data['password'])
+                ]
+            );
+
+            if ($user && count($user) > 0) {
+                echo json_encode([
+                    'login' => true,
+                    'user' => $user[0] ?? $user, // if it's an array of rows
+                ]);
+            } else {
+                echo json_encode([
+                    'login' => false,
+                    'error' => 'Invalid username or password'
+                ]);
+            }
+        } catch (\Exception $e) {
+            echo json_encode([
+                'error' => $e->getMessage(),
+                'login' => false
+            ]);
+        }
+    }
+
 }
