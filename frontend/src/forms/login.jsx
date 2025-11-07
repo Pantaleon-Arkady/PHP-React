@@ -1,10 +1,12 @@
 import { Form, Button } from "react-bootstrap";
 import { useState } from "react";
 import { logInAccount } from "../service/UserService";
+import { useNavigate } from "react-router-dom";
 
 function LogInForm({ onCreate }) {
     const [namemail, setNameMail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -23,6 +25,8 @@ function LogInForm({ onCreate }) {
 
         setNameMail("");
         setPassword("");
+
+        navigate("/homepage");
     };
 
     return (
