@@ -21,6 +21,10 @@ function RegisterForm({ onCreate }) {
         } catch (error) {
             console.error(error);
         }
+
+        setUsername("");
+        setEmail("");
+        setPassword("");
     };
 
     return (

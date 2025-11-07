@@ -20,6 +20,9 @@ function LogInForm({ onCreate }) {
         } catch (error) {
             console.error(error);
         }
+
+        setNameMail("");
+        setPassword("");
     };
 
     return (
