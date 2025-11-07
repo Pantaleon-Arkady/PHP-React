@@ -2,7 +2,7 @@ import { Form, Button } from "react-bootstrap";
 import { useState } from "react";
 import { createAccount } from "../service/UserService";
 
-function RegisterForm({ onCreate }) {
+function RegisterForm({ onRegister }) {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -25,6 +25,7 @@ function RegisterForm({ onCreate }) {
         setUsername("");
         setEmail("");
         setPassword("");
+        onRegister();
     };
 
     return (

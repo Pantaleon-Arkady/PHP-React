@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import RegisterForm from "./forms/register.jsx";
 import LogInForm from "./forms/login.jsx";
 
 function AuthPage() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 700);
     const [isRegister, setIsRegister] = useState(false);
+    const [registerSuccess, setRegisterSuccess] = useState(false);
 
     useEffect(() => {
         const handleScreenSize = () => setIsMobile(window.innerWidth < 768);
@@ -18,6 +18,10 @@ function AuthPage() {
         setIsRegister(!isRegister);
     };
 
+    const handleRegisterSuccess = () => {
+        setRegisterSuccess(true);
+    };
+
     return (
         <>
             {isMobile ?
@@ -27,9 +31,17 @@ function AuthPage() {
                     </div>
                     <div className="border mobile_form_wrapper px-3 pt-5 pb-3">
                         {isRegister ?
-                            <RegisterForm />
+                            <RegisterForm
+                                onRegister={handleRegisterSuccess}
+                            />
                             :
                             <LogInForm />
+                        }
+                        {
+                            registerSuccess &&
+                            <div className="alert alert-success">
+                                <strong>Success!</strong> You have registered
+                            </div>
                         }
                         <div>
                             Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
@@ -51,9 +63,17 @@ function AuthPage() {
                     <div className="col-md-5 border d-flex align-items-center">
                         <div className="border form_wrapper">
                             {isRegister ?
-                                <RegisterForm />
+                                <RegisterForm
+                                    onRegister={handleRegisterSuccess}
+                                />
                                 :
                                 <LogInForm />
+                            }
+                            {
+                                registerSuccess &&
+                                <div className="alert alert-success">
+                                    <strong>Success!</strong> You have registered
+                                </div>
                             }
                             <div>
                                 Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
