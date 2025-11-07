@@ -1,9 +1,32 @@
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import AuthPage from "./AuthPage";
+
+function LandingPage() {
+    
+    return (
+        <Container fluid>
+            <div>
+                <span>Landing Page...</span>
+            </div>
+            <div className="col-lg">
+                <div className="">
+                    <Link to="/signup" className="btn btn-primary m-2">Log in?</Link>
+                </div>
+            </div>
+        </Container>
+    )
+};
+
 function App() {
 
     return (
-        <>
-            App Landing page..
-        </>
+        <Router>
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/signup" element={<AuthPage />} />
+            </Routes>
+        </Router>
     )
 }
 
