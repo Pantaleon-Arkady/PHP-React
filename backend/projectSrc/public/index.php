@@ -26,6 +26,9 @@ switch ($uri) {
             echo json_encode(["success" => false, "error" => "Method not allowed"]);
         }
         break;
+    case '/pr-users/login':
+        $api->logInUser();
+        break;
 
     case '':
     case '/':
