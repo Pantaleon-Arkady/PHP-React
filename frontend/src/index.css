@@ -52,6 +52,15 @@
     width: 18%;
 }
 
+.homepage_left_sections {
+    height: 40vh;
+}
+
+.homepage_left_features {
+    width: 80%;
+    height: 15%;
+}
+
 .homepage_main_body {
     width: 82%;
 }

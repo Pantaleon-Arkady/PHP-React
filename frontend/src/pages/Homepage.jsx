@@ -16,8 +16,26 @@ function Homepage() {
                 </div>
             </div>
             <div className="homepage_body_div border d-flex flex-row">
-                <div className="homepage_left border">
-                    left side nav
+                <div className="homepage_left border d-flex flex-column">
+                    <div className="homepage_left_sections border w-100 d-flex flex-column justify-content-around align-items-center">
+                        <div className="homepage_left_features border"></div>
+                        <div className="homepage_left_features border"></div>
+                        <div className="homepage_left_features border"></div>
+                        <div className="homepage_left_features border"></div>
+                    </div>
+                    <div className="homepage_left_sections border w-100 d-flex flex-column justify-content-around align-items-center">
+                        <div className="homepage_left_features border"></div>
+                        <div className="homepage_left_features border"></div>
+                        <div className="homepage_left_features border"></div>
+                        <div className="homepage_left_features border"></div>
+                    </div>
+                    <div className="homepage_left_sections border w-100 d-flex flex-column justify-content-around align-items-center">
+                        <div className="homepage_left_features border"></div>
+                        <div className="homepage_left_features border"></div>
+                        <div className="homepage_left_features border"></div>
+                        <div className="homepage_left_features border"></div>
+                    </div>
+                    <div className="homepage_left_sections border w-100"></div>
                 </div>
                 <div className="homepage_main_body border">
                     body
