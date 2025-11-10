@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import AuthPage from "./AuthPage";
-import Homepage from "./templates/Homepage";
+import AuthPage from "./pages/AuthPage";
+import Homepage from "./pages/Homepage";
 
 function LandingPage() {
     

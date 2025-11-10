@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import RegisterForm from "./forms/register.jsx";
-import LogInForm from "./forms/login.jsx";
+import RegisterForm from "../forms/register.jsx";
+import LogInForm from "../forms/login.jsx";
 
 function AuthPage() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 700);
