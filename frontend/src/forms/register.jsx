@@ -16,16 +16,18 @@ function RegisterForm({ onRegister }) {
             const result = await createAccount({
                 username, email, password
             });
+
+            setUsername("");
+            setEmail("");
+            setPassword("");
+            onRegister();
+
             console.log("POST /user-register result:", result);
 
         } catch (error) {
             console.error(error);
         }
 
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        onRegister();
     };
 
     return (

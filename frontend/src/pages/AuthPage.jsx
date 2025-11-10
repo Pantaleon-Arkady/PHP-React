@@ -20,6 +20,7 @@ function AuthPage() {
 
     const handleRegisterSuccess = () => {
         setRegisterSuccess(true);
+        setTimeout(() => setRegisterSuccess(false), 4000);
     };
 
     return (
