@@ -4,10 +4,27 @@
     padding: 0;
 }
 
+.app_name_div {
+    background-color: black;
+}
+
+.sign_app_name {
+    color: white;
+}
+
+.form_wrapper {
+    background-color: gray;
+}
+
 @media (max-width: 700px) {
 
-    .landing_container_mobile {
+    /* .landing_container_mobile {
         background-color: gray;
+    } */
+
+    .mobile_form_wrapper {
+        background-color: gray;
+        width: 80%;
     }
     
 }
