@@ -16,6 +16,24 @@
     background-color: gray;
 }
 
+/* Homepage */
+
+.homepage_head {
+    min-height: 10vh;
+}
+
+.homepage_body_div {
+    min-height: 90vh;
+}
+
+.homepage_left {
+    width: 18%;
+}
+
+.homepage_main_body {
+    width: 82%;
+}
+
 @media (max-width: 700px) {
 
     /* .landing_container_mobile {
