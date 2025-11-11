@@ -1,3 +1,5 @@
+import PostList from "../subponents/PostList";
+
 function Homepage() {
 
     return (
@@ -39,6 +41,7 @@ function Homepage() {
                 </div>
                 <div className="homepage_main_body border d-flex flex-row">
                     <div className="homepage_contents_div border d-flex flex-column align-items-center">
+                        <PostList />
                         <div className="each_content_div border  mt-3 mb-3">
                             <div className="each_content_top border w-100">
                             </div>
