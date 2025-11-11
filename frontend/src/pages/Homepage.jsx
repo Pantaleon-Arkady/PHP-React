@@ -7,13 +7,13 @@ function Homepage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect = (() => {
+    useEffect(() => {
         (async () => {
             setLoading(true);
             try {
                 const result = await getAllData();
                 console.log("GET posts data:", result);
-
+    
                 if (result.success) {
                     setPosts(Array.isArray(result.data) ? result.data : []);
                 } else {
