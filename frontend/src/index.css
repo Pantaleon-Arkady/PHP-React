@@ -65,6 +65,31 @@
     width: 82%;
 }
 
+.homepage_contents_div {
+    width: 75%;
+}
+
+.each_content_div {
+    width: 80%;
+    min-height: 300px;
+}
+
+.each_content_top {
+    min-height: 30px;
+}
+
+.each_contents_content {
+    min-height: 200px;
+}
+
+.each_content_bottom {
+    min-height: 30px;
+}
+
+.homepage_main_side {
+    width: 25%;
+}
+
 @media (max-width: 700px) {
 
     /* .landing_container_mobile {

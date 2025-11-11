@@ -37,8 +37,34 @@ function Homepage() {
                     </div>
                     <div className="homepage_left_sections border w-100"></div>
                 </div>
-                <div className="homepage_main_body border">
-                    body
+                <div className="homepage_main_body border d-flex flex-row">
+                    <div className="homepage_contents_div border d-flex flex-column align-items-center">
+                        <div className="each_content_div border  mt-3 mb-3">
+                            <div className="each_content_top border w-100">
+                            </div>
+                            <div className="each_contents_content border w-100"></div>
+                            <div className="each_content_bottom border w-100"></div>
+                        </div>
+                        <div className="each_content_div border  mt-3 mb-3">
+                            <div className="each_content_top border w-100">
+                            </div>
+                            <div className="each_contents_content border w-100"></div>
+                            <div className="each_content_bottom border w-100"></div>
+                        </div>
+                        <div className="each_content_div border  mt-3 mb-3">
+                            <div className="each_content_top border w-100">
+                            </div>
+                            <div className="each_contents_content border w-100"></div>
+                            <div className="each_content_bottom border w-100"></div>
+                        </div>
+                        <div className="each_content_div border  mt-3 mb-3">
+                            <div className="each_content_top border w-100">
+                            </div>
+                            <div className="each_contents_content border w-100"></div>
+                            <div className="each_content_bottom border w-100"></div>
+                        </div>
+                    </div>
+                    <div className="homepage_main_side border"></div>
                 </div>
             </div>
         </div>
