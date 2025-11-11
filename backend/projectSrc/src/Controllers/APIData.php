@@ -34,8 +34,8 @@ class APIData
 
         if (strpos($uri, 'pr-users') !== false) {
             return 'app_user';
-        } elseif (strpos($uri, 'reminders') !== false) {
-            return 'api_reminders';
+        } elseif (strpos($uri, 'posts') !== false) {
+            return 'app_user_posts';
         } else {
             throw new Exception("Unknown resource type");
         }
@@ -89,7 +89,7 @@ class APIData
             $data = json_decode(file_get_contents('php://input'), true);
 
             $user = Database::fetchAssoc(
-                'SELECT * FROM app_user WHERE (email = :namemail OR username = :namemail) AND password = :password',
+                "SELECT * FROM {$table} WHERE (email = :namemail OR username = :namemail) AND password = :password",
                 [
                     'namemail' => $data['namemail'],
                     'password' => md5($data['password'])
@@ -111,6 +111,28 @@ class APIData
             echo json_encode([
                 'error' => $e->getMessage(),
                 'login' => false
+            ]);
+        }
+    }
+
+    public function allData()
+    {
+        $this->addHeaders("full");
+
+        try {
+            $table = $this->getTableFromUri();
+
+            $rows = Database::fetchAll("SELECT * FROM {$table} ORDER BY id DESC");
+
+            echo json_encode([
+                'success' => true,
+                'data' => $rows
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => $e->getMessage()
             ]);
         }
     }

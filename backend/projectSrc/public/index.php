@@ -10,6 +10,8 @@ use Root\Controllers\APIData;
 $general = new General();
 $api = new APIData();
 
+$error = json_encode(["success" => false, "error" => "Method not allowed"]);
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     $api->handlePreflight();
 }
@@ -19,16 +21,30 @@ switch ($uri) {
         $general->usersDisplay();
         break;
 
+    // Users
+
     case '/pr-users':
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $api->createUser();
         } else {
-            echo json_encode(["success" => false, "error" => "Method not allowed"]);
+            echo $error;
         }
         break;
     case '/pr-users/login':
         $api->logInUser();
         break;
+
+    // Posts
+
+    case '/posts':
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            $api->allData();
+        } else {
+            echo $error;
+        }
+        break;
+
+    // Defaults
 
     case '':
     case '/':
