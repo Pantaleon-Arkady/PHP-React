@@ -1,12 +1,29 @@
 import { Form, Button, Modal } from "react-bootstrap";
 import { useState } from "react";
+import { createPost } from "../service/DataService";
+import { useNavigate } from "react-router-dom";
 
 function CreatePost({ show, onClose }) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const navigate = useNavigate();
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
+        e.preventDefault();
+        if (!title.trim() && !content.trim()) return;
+        try {
+            const result = await createPost({
+                title, content
+            });
+            console.log("POST /create-post result:", result);
+        } catch (err) {
+            console.error(error);
+        }
 
+        setTitle("");
+        setContent("");
+        onClose();
+        navigate("/homepage");
     };
 
     return (
@@ -29,7 +46,7 @@ function CreatePost({ show, onClose }) {
 
                     <Form.Group className="mb-3">
                         <Form.Control
-                            type="text"
+                            type="textarea"
                             placeholder="Enter a content here..."
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
