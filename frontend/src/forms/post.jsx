@@ -16,14 +16,18 @@ function CreatePost({ show, onClose }) {
                 title, content
             });
             console.log("POST /create-post result:", result);
+
+            if (result.success) {
+                setTitle("");
+                setContent("");
+                onClose();
+                navigate("/homepage", { state: { refresh: true } });
+            } else {
+                console.error(result.error);
+            }
         } catch (err) {
             console.error(error);
         }
-
-        setTitle("");
-        setContent("");
-        onClose();
-        navigate("/homepage");
     };
 
     return (

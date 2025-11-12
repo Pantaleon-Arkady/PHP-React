@@ -3,33 +3,44 @@ import PostList from "../subponents/PostList";
 import { getAllData } from "../service/DataService";
 import { Button } from "react-bootstrap";
 import CreatePost from "../forms/post";
+import { useLocation } from "react-router-dom";
 
 function Homepage() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [createPost, setCreatePost] = useState(false);
+    const location = useLocation();
+
+    async function fetchPosts() {
+        setLoading(true);
+        try {
+            const result = await getAllData();
+            console.log("GET posts data:", result);
+
+            if (result.success) {
+                setPosts(Array.isArray(result.data) ? result.data : []);
+            } else {
+                setError(result.error || "Unknown API error");
+            }
+        } catch (err) {
+            console.error("GET /posts error:", err);
+            setError("Failed to fetch posts");
+        } finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
-        (async () => {
-            setLoading(true);
-            try {
-                const result = await getAllData();
-                console.log("GET posts data:", result);
-    
-                if (result.success) {
-                    setPosts(Array.isArray(result.data) ? result.data : []);
-                } else {
-                    setError(result.error || "Unknown API error");
-                }
-            } catch (err) {
-                console.error("GET /posts error:", err);
-                setError("Failed to fetch posts");
-            } finally {
-                setLoading(false);
-            }
-        })();
+        fetchPosts();
     }, []);
+
+    useEffect(() => {
+        if (location.state?.refresh) {
+            fetchPosts();
+            window.history.replaceState({}, document.title);
+        }
+    }, [location.state]);
 
     return (
         <div className="">
