@@ -3,7 +3,7 @@ import { useState } from "react";
 import { logInAccount } from "../service/UserService";
 import { useNavigate } from "react-router-dom";
 
-function LogInForm({ onCreate }) {
+function LogInForm({ userData }) {
     const [namemail, setNameMail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -18,6 +18,19 @@ function LogInForm({ onCreate }) {
                 namemail, password
             });
             console.log("POST /user-log-in result:", result);
+
+            if (result.success && result.data.login) {
+                const loggedUser = {
+                    id: result.data.user.id,
+                    username: result.data.user.username,
+                    role: result.data.user.role,
+                    email: result.data.user.email
+                };
+
+                userData(loggedUser);
+            } else {
+                console.error("Login failed");
+            }
 
         } catch (error) {
             console.error(error);
