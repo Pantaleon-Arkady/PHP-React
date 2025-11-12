@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import PostList from "../subponents/PostList";
 import { getAllData } from "../service/DataService";
 import { Button } from "react-bootstrap";
-import createPost from "../forms/post";
+import CreatePost from "../forms/post";
 
 function Homepage() {
     const [posts, setPosts] = useState([]);
@@ -78,7 +78,7 @@ function Homepage() {
                     <div className="homepage_main_side border"></div>
                 </div>
             </div>
-            <createPost 
+            <CreatePost 
                 show={createPost}
                 onClose={() => setCreatePost(false)}
             />

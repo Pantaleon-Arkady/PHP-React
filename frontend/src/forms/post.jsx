@@ -1,7 +1,7 @@
 import { Form, Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 
-function createPost({ show, onClose }) {
+function CreatePost({ show, onClose }) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
@@ -22,7 +22,7 @@ function createPost({ show, onClose }) {
                             type="text"
                             placeholder="Title"
                             value={title}
-                            onChange={(e) => setText(e.target.value)}
+                            onChange={(e) => setTitle(e.target.value)}
                             autoFocus
                         />
                     </Form.Group>
@@ -32,7 +32,7 @@ function createPost({ show, onClose }) {
                             type="text"
                             placeholder="Enter a content here..."
                             value={content}
-                            onChange={(e) => setAnotherValue(e.target.value)}
+                            onChange={(e) => setContent(e.target.value)}
                         />
                     </Form.Group>
 
@@ -50,4 +50,4 @@ function createPost({ show, onClose }) {
     )
 }
 
-export default createPost;
+export default CreatePost;
