@@ -39,6 +39,8 @@ switch ($uri) {
     case '/posts':
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $api->allData();
+        } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $api->createPost();
         } else {
             echo $error;
         }
