@@ -28,6 +28,15 @@ class APIData
         exit;
     }
 
+    // public function eventError($e)
+    // {
+    //     http_response_code(500);
+    //     echo json_encode([
+    //         'success' => false,
+    //         'error' => $e->getMessage()
+    //     ]);
+    // }
+
     private function getTableFromUri(): string
     {
         $uri = $_SERVER['REQUEST_URI'];
@@ -73,7 +82,7 @@ class APIData
                 'post' => $data,
                 'method' => $_SERVER['REQUEST_METHOD']
             ]);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             echo json_encode([
                 'error' => $e->getMessage()
             ]);
@@ -137,4 +146,52 @@ class APIData
         }
     }
 
+    public function createPost()
+    {
+
+        $this->addHeaders();
+
+        try {
+            $input = json_decode(file_get_contents("php://input"), true);
+
+            if (empty($input['title']) && empty($input['content']) ) {
+                http_response_code(400);
+                echo json_encode([
+                    "success" => false,
+                    "error" => "Please fill up all the input field"
+                ]);
+                return;
+            }
+
+            Database::crudQuery(
+                "INSERT INTO app_user_posts (author, title, content, created_at) VALUES (:author, :title, :content, :created_at)",
+                [
+                    'author' => 1,
+                    'title' => $input['title'],
+                    'content' => $input['content'],
+                    'created_at' => date('Y-m-d H:i:s')
+                ]
+            );
+
+            $newId = Database::lastInsertId("app_user_posts_id_seq");
+            error_log("lastInsertId returned: " . $newId);
+
+            $newPost = Database::fetchAssoc(
+                "SELECT * FROM app_user_posts WHERE id = :id",
+                ['id' => $newId]
+            );
+            error_log("Fetched new post: " . json_encode($newPost));
+
+            echo json_encode([
+                "success" => true,
+                "data" => $newPost
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
 }
