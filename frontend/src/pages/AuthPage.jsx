@@ -8,6 +8,26 @@ function AuthPage() {
     const [isRegister, setIsRegister] = useState(false);
     const [registerSuccess, setRegisterSuccess] = useState(false);
 
+    const guestUser = {
+        id: 2003,
+        username: "guest user",
+        role: "user",
+        email: "gues.user@email.com"
+    }
+
+    const [user, setUser] = useState(() => {
+        const saved = localStorage.getItem("user");
+        return saved ? JSON.parse(saved) : guestUser;
+    });
+
+    useEffect(() => {
+        localStorage.setItem("user", JSON.stringify(user))
+    }, [user]);
+
+    const handleSetUser = (newUserData) => {
+        setUser(newUserData);
+    };
+
     useEffect(() => {
         const handleScreenSize = () => setIsMobile(window.innerWidth < 768);
         window.addEventListener("resize", handleScreenSize);
@@ -36,7 +56,9 @@ function AuthPage() {
                                 onRegister={handleRegisterSuccess}
                             />
                             :
-                            <LogInForm />
+                            <LogInForm 
+                                userData={handleSetUser}
+                            />
                         }
                         {
                             registerSuccess &&
@@ -68,7 +90,9 @@ function AuthPage() {
                                     onRegister={handleRegisterSuccess}
                                 />
                                 :
-                                <LogInForm />
+                                <LogInForm 
+                                    userData={handleSetUser}
+                                />
                             }
                             {
                                 registerSuccess &&
