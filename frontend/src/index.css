@@ -16,6 +16,25 @@
     background-color: gray;
 }
 
+/* Auth Page */
+
+.auth_page_container {
+    background-color: gray;
+    height: 100vh;
+}
+
+.auth_body {
+    height: 95vh;
+}
+
+.auth_left {
+    width: 55%;
+}
+
+.auth_right {
+    width: 45%;
+}
+
 /* Homepage */
 
 .homepage_head {
@@ -92,71 +111,32 @@
 
 @media (max-width: 700px) {
 
-    /* .landing_container_mobile {
-        background-color: gray;
-    } */
-
-    /* .mobile_form_wrapper {
-        background-color: gray;
-        width: 80%;
+    /* .mobile_auth_parent {
         height: 100vh;
     }
 
-    .mobile_login_form {
-        height: 60vh;
-        background-color: white;
-        border-radius: 15px;
+    .mobile_auth_head {
+        height: 8%;
+    }
+
+    .mobile_auth_body {
+        height: 92%;
+    }
+
+    .mobile_auth_main {
+        width: 85%;
+        height: 60%;
+        padding-top: 15%;
+        padding-bottom: 15%;
+        padding-left: 7%;
+        padding-right: 7%;
     } */
 
-    .landing_container_mobile {
-        background-color: #111;
+    .auth_left {
+        display: none;
     }
 
-    .sign_app_name {
-        font-size: 1.5rem;
-        letter-spacing: 1px;
-    }
-
-    .mobile_form_wrapper {
-        background-color: #2c2c2c;
-        border-radius: 20px;
-        margin-top: 15%;
-        margin-left: 7%;
-        margin-right: 7%;
-    }
-
-    .mobile_login_form {
-        border-radius: 15px;
-    }
-
-    .form-control-custom {
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding: 10px 14px;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .form-control-custom:focus {
-        border-color: #555;
-        box-shadow: 0 0 0 3px rgba(150, 150, 150, 0.3);
-    }
-
-    .btn-pressable {
-        border: 2px solid #222;
-        border-radius: 10px;
-        background-color: #f8f9fa;
-        transition: all 0.15s ease;
-        box-shadow: 0 4px #999;
-    }
-
-    .btn-pressable:hover {
-        transform: translateY(2px);
-        box-shadow: 0 2px #666;
-        background-color: #e9ecef;
-    }
-
-    .btn-pressable:active {
-        transform: translateY(4px);
-        box-shadow: 0 0 #555;
+    .auth_right {
+        width: 100%;
     }
 }

@@ -44,102 +44,88 @@ function AuthPage() {
     };
 
     return (
-        <>
-            {isMobile ?
-                // <Container fluid className="landing_container_mobile px-0 mx-0">
-                //     <div className="app_name_div p-2">
-                //         <h3 className="p-2 sign_app_name">App Name</h3>
-                //     </div>
-                //     <div className="border mobile_form_wrapper px-3 pt-5 pb-3 w-100 mt-0">
-                //         {isRegister ?
-                //             <RegisterForm
-                //                 onRegister={handleRegisterSuccess}
-                //             />
-                //             :
-                //             <LogInForm 
-                //                 userData={handleSetUser}
-                //             />
-                //         }
-                //         {
-                //             registerSuccess &&
-                //             <div className="alert alert-success">
-                //                 <strong>Success!</strong> You have registered
-                //             </div>
-                //         }
-                //         <div>
-                //             Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
-                //         </div>
-                //     </div>
-                // </Container>
-                <Container fluid className="landing_container_mobile d-flex flex-column align-items-center justify-content-start px-0 mx-0 bg-dark min-vh-100">
-                    <div className="app_name_div text-center py-4 w-100">
-                        <h3 className="sign_app_name text-white fw-bold mb-0">App Name</h3>
-                    </div>
+        // <>
+        //     {isMobile ?
+        //         <Container className="mobile_auth_parent p-0 d-flex flex-column">
+        //             <div className="mobile_auth_head border px-3 py-2">
+        //                 <h3 className="">App Name</h3>
+        //             </div>
 
-                    <div 
-                        className="mobile_form_wrapper bg-secondary-subtle border-0 shadow-sm px-4 pt-4 pb-3 rounded-4 d-flex flex-column align-items-center"
-                    >
-                        {isRegister ? (
-                            <RegisterForm onRegister={handleRegisterSuccess} />
-                        ) : (
-                            <LogInForm userData={handleSetUser} />
-                        )}
+        //             <div 
+        //                 className="mobile_auth_body border d-flex justify-content-center align-items-center"
+        //             >
+        //                 <div className="mobile_auth_main border d-flex flex-column justify-content-" >
+        //                     {isRegister ? (
+        //                         <RegisterForm onRegister={handleRegisterSuccess} />
+        //                     ) : (
+        //                         <LogInForm userData={handleSetUser} />
+        //                     )}
 
-                        {registerSuccess && (
-                            <div className="alert alert-success mt-3 w-100 text-center">
-                                <strong>Success!</strong> You have registered.
-                            </div>
-                        )}
+        //                     {registerSuccess && (
+        //                         <div className="">
+        //                             <strong>Success!</strong> You have registered.
+        //                         </div>
+        //                     )}
 
-                        <div className="mobile_form_toggle text-center mt-3 text-white-50">
-                            Please{" "}
-                            <a className="text-decoration-none text-light fw-semibold" onClick={toggleForm}>
-                                Log in
-                            </a>{" "}
-                            to continue. or{" "}
-                            <a className="text-decoration-none text-light fw-semibold" onClick={toggleForm}>
-                                Register?
-                            </a>
-                        </div>
-                    </div>
-                </Container>
-                :
-                <Container fluid className="row p-5 min-vh-100">
-                    <div className="col-md-7 d-flex flex-column border">
-                        <div className="h-25 border d-flex justify-content-end align-items-end app_name_div">
-                            <h1 className="sign_app_name px-3">App Name</h1>
-                        </div>
-                        <div className="h-75 border d-flex justify-content-end">
-                            <div className="w-75 h-75 border">
-                                Poster Card - with info
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-5 border d-flex align-items-center">
-                        <div className="border form_wrapper">
-                            {isRegister ?
-                                <RegisterForm
-                                    onRegister={handleRegisterSuccess}
-                                />
-                                :
-                                <LogInForm
-                                    userData={handleSetUser}
-                                />
-                            }
-                            {
-                                registerSuccess &&
-                                <div className="alert alert-success">
-                                    <strong>Success!</strong> You have registered
-                                </div>
-                            }
-                            <div>
-                                Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
-                            </div>
-                        </div>
-                    </div>
-                </Container>
-            }
-        </>
+        //                     <div className="border">
+        //                         Please{" "}
+        //                         <a className="" onClick={toggleForm}>
+        //                             Log in
+        //                         </a>{" "}
+        //                         to continue. or{" "}
+        //                         <a className="" onClick={toggleForm}>
+        //                             Register?
+        //                         </a>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </Container>
+        //         :
+        //         <Container fluid className="row p-5 min-vh-100">
+        //             <div className="col-md-7 d-flex flex-column border">
+        //                 <div className="h-25 border d-flex justify-content-end align-items-end app_name_div">
+        //                     <h1 className="sign_app_name px-3">App Name</h1>
+        //                 </div>
+        //                 <div className="h-75 border d-flex justify-content-end">
+        //                     <div className="w-75 h-75 border">
+        //                         Poster Card - with info
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //             <div className="col-md-5 border d-flex align-items-center">
+        //                 <div className="border form_wrapper">
+        //                     {isRegister ?
+        //                         <RegisterForm
+        //                             onRegister={handleRegisterSuccess}
+        //                         />
+        //                         :
+        //                         <LogInForm
+        //                             userData={handleSetUser}
+        //                         />
+        //                     }
+        //                     {
+        //                         registerSuccess &&
+        //                         <div className="alert alert-success">
+        //                             <strong>Success!</strong> You have registered
+        //                         </div>
+        //                     }
+        //                     <div>
+        //                         Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </Container>
+        //     }
+        // </>
+        <div className="auth_page_container w-100 d-flex flex-column">
+            <div className="auth_body border d-flex flex-row">
+                <div className="auth_left border">body left</div>
+                <div className="auth_right border">body right</div>
+            </div>
+            <div className="auth_footer border">
+                footer
+            </div>
+        </div>
     )
 }
 

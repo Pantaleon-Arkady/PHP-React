@@ -43,39 +43,11 @@ function LogInForm({ userData }) {
     };
 
     return (
-        // <Form 
-        //     onSubmit={handleSubmit} 
-        //     className="mobile_login_form w-100 border p-3 d-flex flex-column justify-content-center"
-        // >
-        //     <Form.Group className="mb-3">
-        //         <Form.Control
-        //             type="text"
-        //             placeholder="Enter your username or email here..."
-        //             value={namemail}
-        //             onChange={(e) => setNameMail(e.target.value)}
-        //         />
-        //     </Form.Group>
-
-        //     <Form.Group className="mb-3">
-        //         <Form.Control
-        //             type="password"
-        //             placeholder="Password"
-        //             value={password}
-        //             onChange={(e) => setPassword(e.target.value)}
-        //         />
-        //     </Form.Group>
-
-        //     <div className="d-flex justify-content-center mt-3">
-        //         <Button variant="primary" type="submit">
-        //             Log In
-        //         </Button>
-        //     </div>
-        // </Form>
         <Form
             onSubmit={handleSubmit}
-            className="mobile_login_form w-100 p-4 d-flex flex-column justify-content-center rounded-3 bg-white shadow-sm"
+            className="border"
         >
-            <Form.Group className="mb-3">
+            <Form.Group className="">
                 <Form.Control
                     type="text"
                     placeholder="Enter your username or email..."
@@ -85,7 +57,7 @@ function LogInForm({ userData }) {
                 />
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="">
                 <Form.Control
                     type="password"
                     placeholder="Password"
@@ -95,8 +67,8 @@ function LogInForm({ userData }) {
                 />
             </Form.Group>
 
-            <div className="d-flex justify-content-center mt-3">
-                <Button variant="light" type="submit" className="btn-pressable fw-semibold px-4">
+            <div className="">
+                <Button type="submit" className="">
                     Log In
                 </Button>
             </div>
