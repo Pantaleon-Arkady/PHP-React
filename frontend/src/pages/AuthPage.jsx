@@ -46,28 +46,60 @@ function AuthPage() {
     return (
         <>
             {isMobile ?
-                <Container fluid className="landing_container_mobile px-0 mx-0">
-                    <div className="app_name_div p-2">
-                        <h3 className="p-2 sign_app_name">App Name</h3>
+                // <Container fluid className="landing_container_mobile px-0 mx-0">
+                //     <div className="app_name_div p-2">
+                //         <h3 className="p-2 sign_app_name">App Name</h3>
+                //     </div>
+                //     <div className="border mobile_form_wrapper px-3 pt-5 pb-3 w-100 mt-0">
+                //         {isRegister ?
+                //             <RegisterForm
+                //                 onRegister={handleRegisterSuccess}
+                //             />
+                //             :
+                //             <LogInForm 
+                //                 userData={handleSetUser}
+                //             />
+                //         }
+                //         {
+                //             registerSuccess &&
+                //             <div className="alert alert-success">
+                //                 <strong>Success!</strong> You have registered
+                //             </div>
+                //         }
+                //         <div>
+                //             Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
+                //         </div>
+                //     </div>
+                // </Container>
+                <Container fluid className="landing_container_mobile d-flex flex-column align-items-center justify-content-start px-0 mx-0 bg-dark min-vh-100">
+                    <div className="app_name_div text-center py-4 w-100">
+                        <h3 className="sign_app_name text-white fw-bold mb-0">App Name</h3>
                     </div>
-                    <div className="border mobile_form_wrapper px-3 pt-5 pb-3 w-100 mt-0">
-                        {isRegister ?
-                            <RegisterForm
-                                onRegister={handleRegisterSuccess}
-                            />
-                            :
-                            <LogInForm 
-                                userData={handleSetUser}
-                            />
-                        }
-                        {
-                            registerSuccess &&
-                            <div className="alert alert-success">
-                                <strong>Success!</strong> You have registered
+
+                    <div 
+                        className="mobile_form_wrapper bg-secondary-subtle border-0 shadow-sm px-4 pt-4 pb-3 rounded-4 d-flex flex-column align-items-center"
+                    >
+                        {isRegister ? (
+                            <RegisterForm onRegister={handleRegisterSuccess} />
+                        ) : (
+                            <LogInForm userData={handleSetUser} />
+                        )}
+
+                        {registerSuccess && (
+                            <div className="alert alert-success mt-3 w-100 text-center">
+                                <strong>Success!</strong> You have registered.
                             </div>
-                        }
-                        <div>
-                            Please <a onClick={toggleForm}>Log in</a> to continue. or <a onClick={toggleForm}>Register?</a>
+                        )}
+
+                        <div className="mobile_form_toggle text-center mt-3 text-white-50">
+                            Please{" "}
+                            <a className="text-decoration-none text-light fw-semibold" onClick={toggleForm}>
+                                Log in
+                            </a>{" "}
+                            to continue. or{" "}
+                            <a className="text-decoration-none text-light fw-semibold" onClick={toggleForm}>
+                                Register?
+                            </a>
                         </div>
                     </div>
                 </Container>
@@ -90,7 +122,7 @@ function AuthPage() {
                                     onRegister={handleRegisterSuccess}
                                 />
                                 :
-                                <LogInForm 
+                                <LogInForm
                                     userData={handleSetUser}
                                 />
                             }
