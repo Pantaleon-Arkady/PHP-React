@@ -43,7 +43,10 @@ function LogInForm({ userData }) {
     };
 
     return (
-        <Form onSubmit={handleSubmit} className="w-100">
+        <Form 
+            onSubmit={handleSubmit} 
+            className="mobile_login_form w-100 border p-3 d-flex flex-column justify-content-center"
+        >
             <Form.Group className="mb-3">
                 <Form.Control
                     type="text"

@@ -99,6 +99,13 @@
     .mobile_form_wrapper {
         background-color: gray;
         width: 80%;
+        height: 100vh;
+    }
+
+    .mobile_login_form {
+        height: 60vh;
+        background-color: white;
+        border-radius: 15px;
     }
     
 }

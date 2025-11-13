@@ -47,10 +47,10 @@ function AuthPage() {
         <>
             {isMobile ?
                 <Container fluid className="landing_container_mobile px-0 mx-0">
-                    <div className="app_name_div">
+                    <div className="app_name_div p-2">
                         <h3 className="p-2 sign_app_name">App Name</h3>
                     </div>
-                    <div className="border mobile_form_wrapper px-3 pt-5 pb-3">
+                    <div className="border mobile_form_wrapper px-3 pt-5 pb-3 w-100 mt-0">
                         {isRegister ?
                             <RegisterForm
                                 onRegister={handleRegisterSuccess}
