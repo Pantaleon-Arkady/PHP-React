@@ -206,8 +206,7 @@ class APIData
             }
 
             parse_str($_SERVER["QUERY_STRING"] ?? '', $query);
-            $postId = isset($query['id']) ? (int) $query['id'] : 0;
-            // $postId = (int) $query['id'] ?? 0;
+            $postId = (int) $query['id'] ?? 0;
 
             if ($postId <= 0) {
                 http_response_code(400);
