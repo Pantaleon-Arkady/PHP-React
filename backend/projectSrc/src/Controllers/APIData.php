@@ -149,7 +149,7 @@ class APIData
     public function createPost()
     {
 
-        $this->addHeaders();
+        $this->addHeaders("full");
 
         try {
             $input = json_decode(file_get_contents("php://input"), true);
@@ -186,6 +186,52 @@ class APIData
                 "success" => true,
                 "data" => $newPost
             ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function deletePost()
+    {
+        $this->addHeaders("full");
+
+        try {
+            if ($_SERVER["REQUEST_METHOD"] !== "DELETE") {
+                http_response_code(405);
+                echo json_encode(["success" => false, "error" => "Method not allowed"]);
+            }
+
+            parse_str($_SERVER["QUERY_STRING"] ?? '', $query);
+            $postId = isset($query['id']) ? (int) $query['id'] : 0;
+            // $postId = (int) $query['id'] ?? 0;
+
+            if ($postId <= 0) {
+                http_response_code(400);
+                echo json_encode(["success" => false, "error" => "ID is required"]);
+                exit;
+            }
+
+            $sql = Database::crudQuery(
+                "DELETE FROM app_user_posts WHERE id = :id",
+                ['id' => $postId]
+            );
+    
+            if ($sql->rowCount() > 0) {
+                echo json_encode([
+                    "success" => true,
+                    "message" => ucfirst("app_user_posts") . " entry deleted"
+                ]);
+            } else {
+                http_response_code(404);
+                echo json_encode([
+                    "success" => false,
+                    "error" => "Entry not found"
+                ]);
+            }
         } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode([
