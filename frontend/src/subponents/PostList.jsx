@@ -1,6 +1,19 @@
+import { deletePost } from "../service/DataService";
+
 function PostList({ posts }) {
     if (!Array.isArray(posts) || posts.length === 0) {
         return <div>No posts available.</div>;
+    }
+
+    async function handleDelete(postId) {
+        try {
+            const res = await deletePost(postId);
+            console.log("DELETE /posts?id=", postId, "result:", res);
+
+        } catch (err) {
+            console.error("DELETE /posts error:", err);
+            alert("Error deleting: " + err.message);
+        }
     }
 
     return (
@@ -26,7 +39,7 @@ function PostList({ posts }) {
 
                             <ul className="dropdown-menu">
                                 <li><button>Edit</button></li>
-                                <li><button>Delete</button></li>
+                                <li><button onClick={()=>handleDelete(post.id)}>Delete</button></li>
                             </ul>
                         </div>
                     </div>
