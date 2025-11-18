@@ -1,15 +1,19 @@
 import { deletePost } from "../service/DataService";
+import { useNavigate } from "react-router-dom";
 
 function PostList({ posts }) {
     if (!Array.isArray(posts) || posts.length === 0) {
         return <div>No posts available.</div>;
     }
 
+    const navigate = useNavigate();
+
     async function handleDelete(postId) {
         try {
             const res = await deletePost(postId);
             console.log("DELETE /posts?id=", postId, "result:", res);
 
+            navigate("/homepage", { state: { refresh: true } });
         } catch (err) {
             console.error("DELETE /posts error:", err);
             alert("Error deleting: " + err.message);
