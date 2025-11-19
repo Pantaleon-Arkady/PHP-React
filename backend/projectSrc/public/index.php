@@ -43,6 +43,8 @@ switch ($uri) {
             $api->createPost();
         } elseif ($_SERVER["REQUEST_METHOD"] == "DELETE") {
             $api->deletePost();
+        } elseif ($_SERVER["REQUEST_METHOD"] == "PUT") {
+            $api->updatePost();
         } else {
             echo $error;
         }

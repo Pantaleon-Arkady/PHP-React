@@ -154,7 +154,7 @@ class APIData
         try {
             $input = json_decode(file_get_contents("php://input"), true);
 
-            if (empty($input['title']) && empty($input['content']) ) {
+            if (empty($input['title']) && empty($input['content'])) {
                 http_response_code(400);
                 echo json_encode([
                     "success" => false,
@@ -195,6 +195,66 @@ class APIData
         }
     }
 
+    public function updatePost()
+    {
+        $this->addHeaders("full");
+
+        try {
+            $input = json_decode(file_get_contents("php://input"), true);
+
+            if (empty($input['id']) || empty($input['title']) || empty($input['content'])) {
+                http_response_code(400);
+                echo json_encode([
+                    "success" => false,
+                    "error" => "Missing required fields: id, title, content"
+                ]);
+                return;
+            }
+
+            $existing = Database::fetchAssoc(
+                "SELECT * FROM app_user_posts WHERE id = :id",
+                ['id' => $input['id']]
+            );
+
+            if (!$existing) {
+                http_response_code(404);
+                echo json_encode([
+                    "success" => false,
+                    "error" => "Post not found"
+                ]);
+                return;
+            }
+
+            Database::crudQuery(
+                "UPDATE app_user_posts 
+             SET title = :title, content = :content 
+             WHERE id = :id",
+                [
+                    'id' => $input['id'],
+                    'title' => $input['title'],
+                    'content' => $input['content']
+                ]
+            );
+
+            $updated = Database::fetchAssoc(
+                "SELECT * FROM app_user_posts WHERE id = :id",
+                ['id' => $input['id']]
+            );
+
+            echo json_encode([
+                "success" => true,
+                "data" => $updated
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+
     public function deletePost()
     {
         $this->addHeaders("full");
@@ -218,7 +278,7 @@ class APIData
                 "DELETE FROM app_user_posts WHERE id = :id",
                 ['id' => $postId]
             );
-    
+
             if ($sql->rowCount() > 0) {
                 echo json_encode([
                     "success" => true,
