@@ -35,6 +35,31 @@ export async function createPost(payload) {
     }
 };
 
+export async function updatePost(payload) {
+    try {
+        const res = await fetch(postsUrl, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+            const errorJson = await res.json().catch(() => ({}));
+            return {
+                success: false,
+                error: errorJson.error || errorJson.message || "Update post failed"
+            };
+        }
+
+        const data = await res.json();
+        return { success: true, data };
+
+    } catch (err) {
+        return { success: false, error: err.message };
+    }
+}
+
+
 export async function deletePost(postId) {
     try {
         const res = await fetch(
@@ -50,4 +75,4 @@ export async function deletePost(postId) {
     } catch (err) {
         return { success: false, error: err.message };
     }
-}
+};
