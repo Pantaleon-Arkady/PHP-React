@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Space Mono', monospace;
 }
 
 .app_name_div {
@@ -33,6 +34,17 @@
 
 .auth_left {
     width: 55%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: end;
+}
+
+.left_poster {
+    background-color: black;
+    color: white;
+    text-align: end;
+    margin-bottom: 100px;
 }
 
 .auth_right {
@@ -154,8 +166,11 @@
 
     .mobile_heading {
         display: flex;
-        min-height: 30px;
+        min-height: 75px;
         width: 100%;
+        background-color: black;
+        color: white;
+        padding: 10px 20px;
     }
 
     .auth_right {
