@@ -123,9 +123,10 @@ function AuthPage() {
         // </>
         <div className="auth_page_container w-100 d-flex flex-column">
             <div className="auth_body border d-flex flex-row">
-                <div className="auth_left border">body left</div>
+                <div className="auth_left border">Desktop Content Poster</div>
                 <div className="auth_right border">
-                    <div>
+                    <div className="mobile_heading border">Mobile Heading as content poster</div>
+                    <div className="form_wrapper">
                         {isRegister ?
                             <RegisterForm />
                             :
