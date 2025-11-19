@@ -45,9 +45,9 @@ function LogInForm({ userData }) {
     return (
         <Form
             onSubmit={handleSubmit}
-            className="border"
+            className=""
         >
-            <Form.Group className="">
+            <Form.Group className="mb-3">
                 <Form.Control
                     type="text"
                     placeholder="Enter your username or email..."
@@ -57,7 +57,7 @@ function LogInForm({ userData }) {
                 />
             </Form.Group>
 
-            <Form.Group className="">
+            <Form.Group className="mb-3">
                 <Form.Control
                     type="password"
                     placeholder="Password"
@@ -67,7 +67,7 @@ function LogInForm({ userData }) {
                 />
             </Form.Group>
 
-            <div className="">
+            <div className="d-flex justify-content-center mt-3">
                 <Button type="submit" className="">
                     Log In
                 </Button>

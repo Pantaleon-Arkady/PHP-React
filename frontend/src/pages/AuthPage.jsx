@@ -126,7 +126,7 @@ function AuthPage() {
                 <div className="auth_left border">Desktop Content Poster</div>
                 <div className="auth_right border">
                     <div className="mobile_heading border">Mobile Heading as content poster</div>
-                    <div className="form_wrapper">
+                    <div className="auth_form_wrapper p-4 rounded">
                         {isRegister ?
                             <RegisterForm />
                             :
