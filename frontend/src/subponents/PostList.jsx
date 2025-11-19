@@ -1,12 +1,21 @@
 import { deletePost } from "../service/DataService";
 import { useNavigate } from "react-router-dom";
+import EditPost from "../forms/edit";
+import { useState } from "react";
 
 function PostList({ posts }) {
     if (!Array.isArray(posts) || posts.length === 0) {
         return <div>No posts available.</div>;
     }
 
+    const [editPost, setEditPost] = useState(false);
+    const [selectedPost, setSelectedPost] = useState(null);
     const navigate = useNavigate();
+
+    const handleEdit = (post) => {
+        setEditPost(true);
+        setSelectedPost(post);
+    };
 
     async function handleDelete(postId) {
         try {
@@ -42,8 +51,8 @@ function PostList({ posts }) {
                             </button>
 
                             <ul className="dropdown-menu">
-                                <li><button>Edit</button></li>
-                                <li><button onClick={()=>handleDelete(post.id)}>Delete</button></li>
+                                <li><button onClick={() => handleEdit(post)}>Edit</button></li>
+                                <li><button onClick={() => handleDelete(post.id)}>Delete</button></li>
                             </ul>
                         </div>
                     </div>
@@ -56,6 +65,13 @@ function PostList({ posts }) {
                     <div className="each_content_bottom border w-100"></div>
                 </div>
             ))}
+            {selectedPost && (
+                <EditPost
+                    show={editPost}
+                    onClose={() => setEditPost(false)}
+                    post={selectedPost}
+                />
+            )}
         </>
     );
 }
