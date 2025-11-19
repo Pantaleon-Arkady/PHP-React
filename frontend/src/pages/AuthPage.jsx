@@ -34,8 +34,12 @@ function AuthPage() {
         return () => window.removeEventListener("resize", handleScreenSize);
     }, [])
 
-    const toggleForm = () => {
-        setIsRegister(!isRegister);
+    const showLogIn = () => {
+        setIsRegister(false);
+    };
+
+    const showRegister = () => {
+        setIsRegister(true);
     };
 
     const handleRegisterSuccess = () => {
@@ -120,7 +124,18 @@ function AuthPage() {
         <div className="auth_page_container w-100 d-flex flex-column">
             <div className="auth_body border d-flex flex-row">
                 <div className="auth_left border">body left</div>
-                <div className="auth_right border">body right</div>
+                <div className="auth_right border">
+                    <div>
+                        {isRegister ?
+                            <RegisterForm />
+                            :
+                            <LogInForm />
+                        }
+                        <div>
+                            Please <a onClick={showLogIn}>Log in</a> to continue. or <a onClick={showRegister}>Register?</a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div className="auth_footer border">
                 footer
