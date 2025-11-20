@@ -6,10 +6,39 @@ function RegisterForm({ onRegister }) {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState({});
+
+    function validateForm() {
+        const newErrors = {};
+
+        if (!email.trim()) {
+            newErrors.email = "Email is required.";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            newErrors.email = "Please enter a valid email address.";
+        }
+
+        if (!username.trim()) {
+            newErrors.username = "Username is required.";
+        }
+
+        if (!password.trim()) {
+            newErrors.password = "Password is required.";
+        } else if (password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters.";
+        }
+
+        return newErrors;
+    }
 
     async function handleSubmit(e) {
         e.preventDefault();
-        if (!username.trim() && !email.trim() && !password.trim()) return;
+
+        const validationErrors = validateForm();
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length > 0) {
+            return;
+        }
 
         try {
 
@@ -38,7 +67,9 @@ function RegisterForm({ onRegister }) {
                     placeholder="Enter your email here..."
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    isInvalid={!!errors.email}
                 />
+                {errors.email && <div className="text-light bg-danger rounded py-1 px-3 mt-1">{errors.email}</div>}
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -47,7 +78,9 @@ function RegisterForm({ onRegister }) {
                     placeholder="Enter a username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    isInvalid={!!errors.username}
                 />
+                {errors.username && <div className="text-light bg-danger rounded py-1 px-3 mt-1">{errors.username}</div>}
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -56,8 +89,11 @@ function RegisterForm({ onRegister }) {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    isInvalid={!!errors.password}
                 />
+                {errors.password && <div className="text-light bg-danger rounded py-1 px-3 mt-1">{errors.password}</div>}
             </Form.Group>
+
 
             <div className="d-flex justify-content-center mt-3">
                 <Button variant="primary" type="submit">
