@@ -24,6 +24,10 @@ function AuthPage() {
         localStorage.setItem("user", JSON.stringify(user))
     }, [user]);
 
+    useEffect(() => {
+        sessionStorage.setItem("user", JSON.stringify(user))
+    }, [user]);
+
     const handleSetUser = (newUserData) => {
         setUser(newUserData);
     };
@@ -136,9 +140,11 @@ function AuthPage() {
                         {isRegister ?
                             <RegisterForm />
                             :
-                            <LogInForm />
+                            <LogInForm 
+                                userData={handleSetUser}
+                            />
                         }
-                        <div>
+                        <div className="auth_form_toggle">
                             Please <a onClick={showLogIn}>Log in</a> to continue. or <a onClick={showRegister}>Register?</a>
                         </div>
                     </div>

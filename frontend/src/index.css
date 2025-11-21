@@ -63,6 +63,10 @@
     align-items: center;
 }
 
+.auth_form_toggle {
+    color: white;
+}
+
 /* Homepage */
 
 .homepage_head {
