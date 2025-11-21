@@ -2,6 +2,7 @@ import { deletePost } from "../service/DataService";
 import { useNavigate } from "react-router-dom";
 import EditPost from "../forms/edit";
 import { useState } from "react";
+import { likePost } from "../service/DataService";
 
 function PostList({ posts }) {
     if (!Array.isArray(posts) || posts.length === 0) {
@@ -32,13 +33,20 @@ function PostList({ posts }) {
     const user = JSON.parse(sessionStorage.getItem("user") || "null");
     const userId = user.id;
 
-    // async function likePost(postId) {
-    //     try {
-    //         const author = 
-    //     } catch (err) {
+    async function handleLike(postId) {
+        try {
 
-    //     }
-    // }
+            const res = await likePost({
+                author: userId,
+                post: postId
+            });
+            console.log("liking post with id: ". postId, ", liked by author:", userId, "");
+
+            navigate("/homepage", { state: { refresh: true } });
+        } catch (err) {
+            console.log("Error liking post, error:", err);
+        }
+    }
 
     return (
         <>
@@ -75,7 +83,7 @@ function PostList({ posts }) {
                     </div>
 
                     <div className="each_content_bottom border w-100">
-                        <button onClick={() => postLike(post.id)}>
+                        <button onClick={() => handleLike(post.id)}>
                             <img src="../../public/like.svg" />
                             <span>({post.like_count})</span>
                         </button>
