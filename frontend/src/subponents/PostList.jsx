@@ -29,8 +29,20 @@ function PostList({ posts }) {
         }
     }
 
+    const user = JSON.parse(sessionStorage.getItem("user") || "null");
+    const userId = user.id;
+
+    // async function likePost(postId) {
+    //     try {
+    //         const author = 
+    //     } catch (err) {
+
+    //     }
+    // }
+
     return (
         <>
+            <div>User: {userId}</div>
             {posts.map((post, index) => (
                 <div key={index} className="each_content_div border mt-3 mb-3">
                     <div className="each_content_top border w-100 d-flex justify-content-between p-2">
@@ -63,8 +75,11 @@ function PostList({ posts }) {
                     </div>
 
                     <div className="each_content_bottom border w-100">
-                        <button><img src="../../public/like.svg" /></button>
-                        <button><img src="../../public/dislike.svg" /></button>
+                        <button onClick={() => postLike(post.id)}>
+                            <img src="../../public/like.svg" />
+                            <span>({post.like_count})</span>
+                        </button>
+                        <button><img src="../../public/dislike.svg" /><span>({post.dislike_count})</span></button>
                     </div>
                 </div>
             ))}
