@@ -62,7 +62,10 @@ function PostList({ posts }) {
                         <p>{post.content}</p>
                     </div>
 
-                    <div className="each_content_bottom border w-100"></div>
+                    <div className="each_content_bottom border w-100">
+                        <button><img src="../../public/like.svg" /></button>
+                        <button><img src="../../public/dislike.svg" /></button>
+                    </div>
                 </div>
             ))}
             {selectedPost && (
