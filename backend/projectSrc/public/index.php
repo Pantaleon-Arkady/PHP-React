@@ -50,6 +50,15 @@ switch ($uri) {
         }
         break;
 
+    // Post interaction
+
+    case '/posts-like':
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $api->likePost();
+        } else {
+            echo $error;
+        }
+
     // Defaults
 
     case '':
