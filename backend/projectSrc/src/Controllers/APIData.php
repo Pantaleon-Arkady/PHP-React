@@ -299,4 +299,56 @@ class APIData
             ]);
         }
     }
+
+    public function likePost()
+    {
+        $this->addHeaders(("full"));
+
+        try {
+            $input = json_decode(file_get_contents(":php//input"), true);
+
+            if (empty($input['post'] || empty ($input['author']))) {
+                http_response_code(400);
+                echo json_encode([
+                    'success' => false,
+                    'error' => 'There is an error retrieving necessary data, please try again'
+                ]);
+            }
+
+            $postLikes = Database::fetchAssoc(
+                'SELECT like_count FROM app_user_posts WHERE id = :id',
+                ['id' => $input['post']]
+            );
+
+            $likeCount = intval($postLikes) + 1;
+
+            $postUpdate = Database::crudQuery(
+                'UPDATE app_user_posts SET like_count = :like_count WHERE id = :id',
+                [
+                    'like_count' => $likeCount,
+                    'id' => $input['post']
+                ]
+            );
+
+            $likeInsert = Database::crudQuery(
+                'INSERT INTO app_user_likes (post, author) VALUES (:post, :author)',
+                [
+                    'post' => $input['post'],
+                    'author' => $input['author']
+                ]
+            );
+
+            echo json_encode([
+                'success' => true,
+                'post liked' => $input['post'],
+                'user / author' => $input['author']
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
 }
