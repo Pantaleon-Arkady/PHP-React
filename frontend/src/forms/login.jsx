@@ -7,10 +7,31 @@ function LogInForm({ userData }) {
     const [namemail, setNameMail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+
+    function validateForm() {
+        const newErrors = {};
+
+        if (!namemail.trim()) {
+            newErrors.namemail = "This field is required.";
+        }
+
+        if (!password.trim()) {
+            newErrors.password = "Password is required.";
+        }
+
+        return newErrors;
+    }
 
     async function handleSubmit(e) {
         e.preventDefault();
-        if (!namemail.trim() && !password.trim()) return;
+
+        const validationErrors = validateForm();
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length > 0) {
+            return;
+        }
 
         try {
 
@@ -54,7 +75,9 @@ function LogInForm({ userData }) {
                     value={namemail}
                     onChange={(e) => setNameMail(e.target.value)}
                     className="form-control-custom"
+                    isInvalid={!!errors.namemail}
                 />
+                {errors.namemail && <div className="text-light bg-danger rounded py-1 px-3 mt-1">{errors.namemail}</div>}
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -64,7 +87,9 @@ function LogInForm({ userData }) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="form-control-custom"
+                    isInvalid={!!errors.password}
                 />
+                {errors.password && <div className="text-light bg-danger rounded py-1 px-3 mt-1">{errors.password}</div>}
             </Form.Group>
 
             <div className="d-flex justify-content-center mt-3">
