@@ -1,4 +1,7 @@
+import { data } from "react-router-dom";
+
 const postsUrl = "http://localhost:8080/posts"
+const likeUrl = "http://localhost:8080/posts-like"
 
 export async function getAllData() {
     try {
@@ -76,3 +79,23 @@ export async function deletePost(postId) {
         return { success: false, error: err.message };
     }
 };
+
+export async function likePost(payload) {
+    try {
+        const res = await fetch(likeUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+
+        if (!res.ok) {
+            return { success: false, error: error.json || json.message || "Liking failed" }
+        }
+
+        const data = await res.json();
+
+        return { success: true, data: data};
+    } catch (err) {
+        return { success: false, error: err.message };
+    }
+}
