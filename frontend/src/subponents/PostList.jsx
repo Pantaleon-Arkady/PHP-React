@@ -11,6 +11,7 @@ function PostList({ posts }) {
     const [editPost, setEditPost] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
     const navigate = useNavigate();
+    const [showCommnets, setShowComments] = useState([]);
 
     const handleEdit = (post) => {
         setEditPost(true);
@@ -62,6 +63,13 @@ function PostList({ posts }) {
         }
     }
 
+    const toggleComments = (postId) => {
+        setShowComments(prev => ({
+          ...prev,
+          [postId]: !prev[postId]
+        }));
+      };
+
     return (
         <>
             <div>User: {userId}</div>
@@ -105,7 +113,31 @@ function PostList({ posts }) {
                             <img src="../../public/dislike.svg" />
                             <span>({post.dislike_count})</span>
                         </button>
+                        <button onClick={() => toggleComments(post.id)}>
+                            <span>Comments</span>
+                        </button>
                     </div>
+
+                    {showCommnets[post.id] && (
+                        <div>
+                            {post.comments && post.comments.length > 0 ? (
+                                    <div>
+                                        {post.comments.map((comment) => (
+                                            <div key={comment.id} >
+                                                <div>{comment.author_name}</div>
+                                                <div>{comment.comment}</div>
+                                            </div>
+                                            ))
+                                        }
+                                    </div>
+                                ) : (
+                                    <div>No comments</div>
+                                )
+
+                            }
+                        </div>
+                    )}
+
                 </div>
             ))}
             {selectedPost && (
