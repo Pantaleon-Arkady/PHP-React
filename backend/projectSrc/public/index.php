@@ -50,6 +50,10 @@ switch ($uri) {
         }
         break;
 
+    case '/all-posts':
+        $api->retrieveAllPost();
+        break;
+
     // Post interaction
 
     case '/posts-like':

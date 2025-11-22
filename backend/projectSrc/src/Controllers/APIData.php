@@ -146,6 +146,55 @@ class APIData
         }
     }
 
+    public function retrieveAllPost()
+    {
+        $this->addHeaders("full");
+        try {
+            $allPosts = Database::fetchAll(
+                'SELECT 
+                p.id,
+                p.title,
+                p.content,
+                p.like_count,
+                p.dislike_count,
+                p.created_at,
+                u.id AS author_id,
+                u.username AS author_name
+            FROM app_user_posts p
+            LEFT JOIN app_user u ON p.author = u.id
+            ORDER BY p.id DESC'
+            );
+
+            foreach ($allPosts as &$eachPost) {
+                $eachPost['comments'] = Database::fetchAll(
+                    'SELECT
+                    c.id,
+                    c.comment,
+                    c.created_at,
+                    u.id AS author_id,
+                    u.username AS author_name
+                FROM app_user_comments c
+                LEFT JOIN app_user u ON c.author = u.id
+                WHERE c.post_id = :post_id
+                ORDER BY c.id DESC',
+                    [':post_id' => $eachPost['id']]
+                );
+            }
+            unset($eachPost);
+
+            echo json_encode([
+                'success' => true,
+                'data'    => $allPosts
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
     public function createPost()
     {
 
