@@ -23,3 +23,9 @@ CREATE TABLE IF NOT EXISTS app_user_likes (
     post INT NOT NULL REFERENCES app_user_posts(id),
     author INT NOT NULL REFERENCES app_user(id)
 );
+
+CREATE TABLE IF NOT EXISTS app_user_dislikes (
+    id SERIAL PRIMARY KEY,
+    post INT NOT NULL REFERENCES app_user_posts(id),
+    author INT NOT NULL REFERENCES app_user(id)
+);
