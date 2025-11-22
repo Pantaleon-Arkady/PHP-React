@@ -1,4 +1,4 @@
-TRUNCATE app_user, app_user_posts, app_user_likes, app_user_dislikes RESTART IDENTITY;
+TRUNCATE app_user, app_user_posts, app_user_likes, app_user_dislikes, app_user_comments RESTART IDENTITY;
 
 INSERT INTO app_user (email, role, username, password)
 VALUES 
@@ -51,3 +51,22 @@ VALUES
     (4, 3),
     (4, 1),
     (4, 5);
+
+INSERT INTO app_user_comments (author, comment, post_id, created_at)
+VALUES
+    (2,
+    'admin comment',
+    1,
+    '2025-09-22 10:45:00'),
+    (3,
+    'first comment',
+    1,
+    '2025-09-22 10:45:00'),
+    (4,
+    'demo comment',
+    1,
+    '2025-09-22 10:45:00'),
+    (5,
+    'test comment',
+    1,
+    '2025-09-22 10:45:00');

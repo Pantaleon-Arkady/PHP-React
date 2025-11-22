@@ -29,3 +29,12 @@ CREATE TABLE IF NOT EXISTS app_user_dislikes (
     post INT NOT NULL REFERENCES app_user_posts(id),
     author INT NOT NULL REFERENCES app_user(id)
 );
+
+CREATE TABLE IF NOT EXISTS app_user_comments (
+    id SERIAL PRIMARY KEY,
+    author INT NOT NULL REFERENCES app_user(id),
+    comment TEXT NOT NULL,
+    post_id INT NOT NULL REFERENCES app_user_posts(id),
+    created_at TIMESTAMP,
+    modified_at TIMESTAMP
+);

@@ -410,7 +410,7 @@ class APIData
 
                 echo json_encode([
                     'success' => true,
-                    'action' => 'liked',
+                    'action' => 'disliked',
                     'post_id' => $postId
                 ]);
             }
