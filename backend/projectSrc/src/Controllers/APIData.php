@@ -359,4 +359,64 @@ class APIData
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
     }
+
+    public function dislikePost()
+    {
+        $this->addHeaders("full");
+
+        $input = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($input['post']) || empty($input['author'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Missing post or author']);
+            return;
+        }
+
+        $postId = (int)$input['post'];
+        $authorId = (int)$input['author'];
+
+        try {
+            $existing = Database::fetchAssoc(
+                "SELECT id FROM app_user_dislikes WHERE post = :post AND author = :author",
+                ['post' => $postId, 'author' => $authorId]
+            );
+
+            if ($existing) {
+                Database::crudQuery(
+                    "DELETE FROM app_user_dislikes WHERE post = :post AND author = :author",
+                    ['post' => $postId, 'author' => $authorId]
+                );
+
+                Database::crudQuery(
+                    "UPDATE app_user_posts SET dislike_count = dislike_count - 1 WHERE id = :id AND dislike_count > 0",
+                    ['id' => $postId]
+                );
+
+                echo json_encode([
+                    'success' => true,
+                    'action' => 'unliked',
+                    'post_id' => $postId
+                ]);
+            } else {
+                Database::crudQuery(
+                    "INSERT INTO app_user_dislikes (post, author) VALUES (:post, :author)",
+                    ['post' => $postId, 'author' => $authorId]
+                );
+
+                Database::crudQuery(
+                    "UPDATE app_user_posts SET dislike_count = dislike_count + 1 WHERE id = :id",
+                    ['id' => $postId]
+                );
+
+                echo json_encode([
+                    'success' => true,
+                    'action' => 'liked',
+                    'post_id' => $postId
+                ]);
+            }
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
+    }
 }

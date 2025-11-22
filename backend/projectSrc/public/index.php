@@ -58,8 +58,17 @@ switch ($uri) {
         } else {
             echo $error;
         }
+        break;
 
-    // Defaults
+    case '/posts-dislike':
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $api->dislikePost();
+        } else {
+            echo $error;
+        }
+        break;
+
+        // Defaults
 
     case '':
     case '/':
@@ -69,5 +78,5 @@ switch ($uri) {
     default:
         http_response_code(404);
         echo "404 Not Found — URI: $uri";
-        break;   
+        break;
 }

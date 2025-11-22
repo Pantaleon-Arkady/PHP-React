@@ -2,6 +2,7 @@ import { data } from "react-router-dom";
 
 const postsUrl = "http://localhost:8080/posts"
 const likeUrl = "http://localhost:8080/posts-like"
+const dislikeUrl = "http://localhost:8080/posts-dislike"
 
 export async function getAllData() {
     try {
@@ -90,6 +91,26 @@ export async function likePost(payload) {
 
         if (!res.ok) {
             return { success: false, error: error.json || json.message || "Liking failed" }
+        }
+
+        const data = await res.json();
+
+        return { success: true, data: data};
+    } catch (err) {
+        return { success: false, error: err.message };
+    }
+}
+
+export async function dislikePost(payload) {
+    try {
+        const res = await fetch(dislikeUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+
+        if (!res.ok) {
+            return { success: false, error: error.json || json.message || "Disliking failed" }
         }
 
         const data = await res.json();

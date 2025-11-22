@@ -1,8 +1,7 @@
-import { deletePost } from "../service/DataService";
+import { deletePost, likePost, dislikePost } from "../service/DataService";
 import { useNavigate } from "react-router-dom";
 import EditPost from "../forms/edit";
 import { useState } from "react";
-import { likePost } from "../service/DataService";
 
 function PostList({ posts }) {
     if (!Array.isArray(posts) || posts.length === 0) {
@@ -47,6 +46,21 @@ function PostList({ posts }) {
             console.log("Error liking post, error:", err);
         }
     }
+    
+    async function handleDislike(postId) {
+        try {
+
+            const res = await dislikePost({
+                author: userId,
+                post: postId
+            });
+            console.log("disliking post with id: ". postId, ", disliked by author:", userId, "");
+
+            navigate("/homepage", { state: { refresh: true } });
+        } catch (err) {
+            console.log("Error disliking post, error:", err);
+        }
+    }
 
     return (
         <>
@@ -87,7 +101,10 @@ function PostList({ posts }) {
                             <img src="../../public/like.svg" />
                             <span>({post.like_count})</span>
                         </button>
-                        <button><img src="../../public/dislike.svg" /><span>({post.dislike_count})</span></button>
+                        <button onClick={() => handleDislike(post.id)}>
+                            <img src="../../public/dislike.svg" />
+                            <span>({post.dislike_count})</span>
+                        </button>
                     </div>
                 </div>
             ))}
