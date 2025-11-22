@@ -10,136 +10,136 @@ function PostList({ posts }) {
 
     const [editPost, setEditPost] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
+    const [showComments, setShowComments] = useState({});
     const navigate = useNavigate();
-    const [showCommnets, setShowComments] = useState([]);
+
+    const userData = JSON.parse(sessionStorage.getItem("user") || "null");
+    if (!userData) {
+        return <div>Not logged in</div>;
+    }
+    const userId = userData.id;
 
     const handleEdit = (post) => {
-        setEditPost(true);
         setSelectedPost(post);
+        setEditPost(true);
     };
 
-    async function handleDelete(postId) {
+    const handleDelete = async (postId) => {
         try {
-            const res = await deletePost(postId);
-            console.log("DELETE /posts?id=", postId, "result:", res);
-
+            await deletePost(postId);
             navigate("/homepage", { state: { refresh: true } });
         } catch (err) {
-            console.error("DELETE /posts error:", err);
-            alert("Error deleting: " + err.message);
+            alert("Error deleting post: " + err.message);
         }
-    }
+    };
 
-    const user = JSON.parse(sessionStorage.getItem("user") || "null");
-    const userId = user.id;
-
-    async function handleLike(postId) {
+    const handleLike = async (postId) => {
         try {
-
-            const res = await likePost({
-                author: userId,
-                post: postId
-            });
-            console.log("liking post with id: ". postId, ", liked by author:", userId, "");
-
+            await likePost({ author: userId, post: postId });
             navigate("/homepage", { state: { refresh: true } });
         } catch (err) {
-            console.log("Error liking post, error:", err);
+            console.error("Like failed:", err);
         }
-    }
-    
-    async function handleDislike(postId) {
+    };
+
+    const handleDislike = async (postId) => {
         try {
-
-            const res = await dislikePost({
-                author: userId,
-                post: postId
-            });
-            console.log("disliking post with id: ". postId, ", disliked by author:", userId, "");
-
+            await dislikePost({ author: userId, post: postId });
             navigate("/homepage", { state: { refresh: true } });
         } catch (err) {
-            console.log("Error disliking post, error:", err);
+            console.error("Dislike failed:", err);
         }
-    }
+    };
 
     const toggleComments = (postId) => {
         setShowComments(prev => ({
-          ...prev,
-          [postId]: !prev[postId]
+            ...prev,
+            [postId]: !prev[postId]
         }));
-      };
+    };
 
     return (
         <>
-            <div>User: {userId}</div>
-            {posts.map((post, index) => (
-                <div key={index} className="each_content_div border mt-3 mb-3">
+            <div className="mb-3">User: {userId}</div>
+
+            {posts.map((post) => (
+                <div key={post.id} className="each_content_div border mt-3 mb-3">
+
+                    {/* Header */}
                     <div className="each_content_top border w-100 d-flex justify-content-between p-2">
-                        <div className="border d-flex flex-column">
-                            <div>User ID: {post.author}</div>
+                        <div className="d-flex flex-column">
                             <div>
-                                {new Date(post.created_at).toLocaleDateString()}{" "}
-                                {new Date(post.created_at).toLocaleTimeString()}
+                                <strong>{post.author_name || "Unknown User"}</strong> (ID: {post.author_id})
+                            </div>
+                            <div className="text-muted small">
+                                {new Date(post.created_at).toLocaleDateString()} {" "}
+                                {new Date(post.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </div>
                         </div>
+
                         <div className="dropdown">
                             <button
-                                type="button"
-                                className="btn btn-primary dropdown-toggle"
+                                className="btn btn-primary dropdown-toggle btn-sm"
                                 data-bs-toggle="dropdown"
                             >
                                 Mod
                             </button>
-
                             <ul className="dropdown-menu">
-                                <li><button onClick={() => handleEdit(post)}>Edit</button></li>
-                                <li><button onClick={() => handleDelete(post.id)}>Delete</button></li>
+                                <li>
+                                    <button className="dropdown-item" onClick={() => handleEdit(post)}>
+                                        Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <button className="dropdown-item text-danger" onClick={() => handleDelete(post.id)}>
+                                        Delete
+                                    </button>
+                                </li>
                             </ul>
                         </div>
                     </div>
 
-                    <div className="each_contents_content border w-100 p-2">
+                    {/* Content */}
+                    <div className="each_contents_content border w-100 p-3">
                         <h5>{post.title}</h5>
-                        <p>{post.content}</p>
+                        <p className="mb-0">{post.content}</p>
                     </div>
 
-                    <div className="each_content_bottom border w-100">
-                        <button onClick={() => handleLike(post.id)}>
-                            <img src="../../public/like.svg" />
-                            <span>({post.like_count})</span>
+                    {/* Actions */}
+                    <div className="each_content_bottom border w-100 d-flex gap-3 p-3 align-items-center">
+                        <button onClick={() => handleLike(post.id)} className="btn btn-outline-success btn-sm">
+                            <img src="/like.svg" alt="Like" width="20" /> ({post.like_count})
                         </button>
-                        <button onClick={() => handleDislike(post.id)}>
-                            <img src="../../public/dislike.svg" />
-                            <span>({post.dislike_count})</span>
+                        <button onClick={() => handleDislike(post.id)} className="btn btn-outline-danger btn-sm">
+                            <img src="/dislike.svg" alt="Dislike" width="20" /> ({post.dislike_count})
                         </button>
-                        <button onClick={() => toggleComments(post.id)}>
-                            <span>Comments</span>
+                        <button onClick={() => toggleComments(post.id)} className="btn btn-outline-secondary btn-sm ms-auto">
+                            Comments ({post.comments?.length || 0}) {showComments[post.id] ? "↑" : "↓"}
                         </button>
                     </div>
 
-                    {showCommnets[post.id] && (
-                        <div>
+                    {/* Comments Dropdown */}
+                    {showComments[post.id] && (
+                        <div className="border-top bg-light p-3">
                             {post.comments && post.comments.length > 0 ? (
-                                    <div>
-                                        {post.comments.map((comment) => (
-                                            <div key={comment.id} >
-                                                <div>{comment.author_name}</div>
-                                                <div>{comment.comment}</div>
-                                            </div>
-                                            ))
-                                        }
+                                post.comments.map((comment) => (
+                                    <div key={comment.id} className="border-bottom pb-2 mb-2">
+                                        <strong>{comment.author_name || "Anonymous"}</strong>
+                                        <small className="text-muted ms-2">
+                                            {new Date(comment.created_at).toLocaleDateString()}
+                                        </small>
+                                        <p className="mb-0 mt-1">{comment.comment}</p>
                                     </div>
-                                ) : (
-                                    <div>No comments</div>
-                                )
-
-                            }
+                                ))
+                            ) : (
+                                <p className="text-muted mb-0">No comments yet.</p>
+                            )}
                         </div>
                     )}
-
                 </div>
             ))}
+
+            {/* Edit Modal */}
             {selectedPost && (
                 <EditPost
                     show={editPost}
