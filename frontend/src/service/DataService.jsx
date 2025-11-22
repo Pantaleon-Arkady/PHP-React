@@ -3,21 +3,22 @@ import { data } from "react-router-dom";
 const postsUrl = "http://localhost:8080/posts"
 const likeUrl = "http://localhost:8080/posts-like"
 const dislikeUrl = "http://localhost:8080/posts-dislike"
+const allPosts = "http://localhost:8080/all-posts";
 
 export async function getAllData() {
     try {
-        const res = await fetch(postsUrl);
+        const res = await fetch(allPosts);
         const json = await res.json();
 
         if (!res.ok) {
-            return { success: false, error: json.err || json.message || "Fetch failed!" };
+            return { success: false, error: json.error || json.message || "Fetch failed!" };
         }
 
-        return { success: !!json.success, data: json.data ?? json};
+        return { success: true, data: json.data || json };
     } catch (err) {
         return { success: false, error: err.message };
     }
-};
+}
 
 export async function createPost(payload) {
     try {
