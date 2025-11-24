@@ -2,6 +2,7 @@ import { deletePost, likePost, dislikePost } from "../service/DataService";
 import { useNavigate } from "react-router-dom";
 import EditPost from "../forms/edit";
 import { useState } from "react";
+import CommentPost from "../forms/comment";
 
 function PostList({ posts }) {
     if (!Array.isArray(posts) || posts.length === 0) {
@@ -134,6 +135,8 @@ function PostList({ posts }) {
                             ) : (
                                 <p className="text-muted mb-0">No comments yet.</p>
                             )}
+                            <CommentPost
+                            />
                         </div>
                     )}
                 </div>
