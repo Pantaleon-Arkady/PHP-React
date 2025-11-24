@@ -136,6 +136,7 @@ function PostList({ posts }) {
                                 <p className="text-muted mb-0">No comments yet.</p>
                             )}
                             <CommentPost
+                                postId={post.id}
                             />
                         </div>
                     )}

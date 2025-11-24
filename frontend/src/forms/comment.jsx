@@ -1,7 +1,7 @@
 import { Form, Button } from "react-bootstrap"
 
 
-function CommentPost() {
+function CommentPost({ postId }) {
 
 const handleSubmit = async () => {
 };
@@ -15,6 +15,7 @@ const handleSubmit = async () => {
                 />
                 <Form.Control
                     type="hidden"
+                    value={postId}
                 />
             </Form.Group>
             <div className="d-flex justify-content-end mt-3">
