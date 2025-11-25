@@ -72,6 +72,15 @@ switch ($uri) {
         }
         break;
 
+    // Comments
+
+    case '/post-comment':
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $api->postComment();
+        } else {
+            echo $error;
+        }
+
         // Defaults
 
     case '':

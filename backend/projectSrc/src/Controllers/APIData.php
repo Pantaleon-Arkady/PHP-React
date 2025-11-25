@@ -468,4 +468,58 @@ class APIData
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
     }
+
+    public function postComment()
+    {
+        $this->addHeaders("full");
+
+        $input = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($input['post_id']) || empty($input['content']) || empty($input['author_id'])) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false, 'error' => 'Please complete required data.'
+            ]);
+        }
+
+        $postId = (int)$input['post_id'];
+        $authorId = (int)$input['author_id'];
+
+        $postExistence = Database::fetchAssoc(
+            'SELECT content FROM app_user_posts WHERE id = :id',
+            ['id' => $postId]
+        );
+
+        if (!$postExistence) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false, 'error' => 'There something wrong with this post'
+            ]);
+        }
+
+        try {
+
+            $comment = Database::crudQuery(
+                'INSERT INTO app_user_comments
+                (author, comment, post_id, created_at)
+                VALUES
+                (:author, :comment, :post_id, :created_at)',
+                [
+                    'author' => $authorId,
+                    'comment' => $input['content'],
+                    'post_id' => $postId,
+                    'created_at' => date('Y-m-d H:i:s')
+                ]
+            );
+
+            echo json_encode([
+                'success' => true,
+                'comment' => $comment
+            ]);
+
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
+    }
 }
