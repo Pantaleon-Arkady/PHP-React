@@ -1,9 +1,11 @@
 import { Form, Button } from "react-bootstrap"
 import { createComment } from "../service/DataService";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CommentPost({ postId }) {
     const [content, setContent] = useState("");
+    const navigate = useNavigate();
 
     const userData = JSON.parse(sessionStorage.getItem("user") || "null");
     if (!userData) {
@@ -23,6 +25,7 @@ function CommentPost({ postId }) {
             });
 
             setContent("");
+            navigate("/homepage", { state: { refresh: true } });
         } catch (err) {
             console.error("Comment failed:", err);
         }
