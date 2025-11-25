@@ -3,7 +3,7 @@ import { createComment } from "../service/DataService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function CommentPost({ postId }) {
+function CommentPost({ postId, commentShow }) {
     const [content, setContent] = useState("");
     const navigate = useNavigate();
 
@@ -25,6 +25,7 @@ function CommentPost({ postId }) {
             });
 
             setContent("");
+            commentShow(postId);
             navigate("/homepage", { state: { refresh: true } });
         } catch (err) {
             console.error("Comment failed:", err);

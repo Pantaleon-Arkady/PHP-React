@@ -1,7 +1,7 @@
 import CommentPost from "../forms/comment";
 
 
-function Comments({ comments, postId }) {
+function Comments({ comments, postId, commentShow }) {
 
     return (
         <div className="border-top bg-light p-3">
@@ -20,6 +20,7 @@ function Comments({ comments, postId }) {
             )}
             <CommentPost
                 postId={postId}
+                commentShow={commentShow}
             />
         </div>
     )

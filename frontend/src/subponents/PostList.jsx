@@ -60,6 +60,13 @@ function PostList({ posts }) {
         }));
     };
 
+    const displayComments = (postId) => {
+        setShowComments(prev => ({
+            ...prev,
+            [postId]: true   // This opens the comments for that post
+        }));
+    };
+
     return (
         <>
             <div className="mb-3">User: {userId}</div>
@@ -126,6 +133,7 @@ function PostList({ posts }) {
                             <Comments
                                 comments={post.comments}
                                 postId={post.id}
+                                commentShow={displayComments}
                             />
                         </>
                     )}
