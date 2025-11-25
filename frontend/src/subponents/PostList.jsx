@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import EditPost from "../forms/edit";
 import { useState } from "react";
 import CommentPost from "../forms/comment";
+import Comments from "./Comments";
 
 function PostList({ posts }) {
     if (!Array.isArray(posts) || posts.length === 0) {
@@ -121,24 +122,30 @@ function PostList({ posts }) {
 
                     {/* Comments Dropdown */}
                     {showComments[post.id] && (
-                        <div className="border-top bg-light p-3">
-                            {post.comments && post.comments.length > 0 ? (
-                                post.comments.map((comment) => (
-                                    <div key={comment.id} className="border-bottom pb-2 mb-2">
-                                        <strong>{comment.author_name || "Anonymous"}</strong>
-                                        <small className="text-muted ms-2">
-                                            {new Date(comment.created_at).toLocaleDateString()}
-                                        </small>
-                                        <p className="mb-0 mt-1">{comment.comment}</p>
-                                    </div>
-                                ))
-                            ) : (
-                                <p className="text-muted mb-0">No comments yet.</p>
-                            )}
-                            <CommentPost
+                        <>
+                            <div className="border-top bg-light p-3">
+                                {post.comments && post.comments.length > 0 ? (
+                                    post.comments.map((comment) => (
+                                        <div key={comment.id} className="border-bottom pb-2 mb-2">
+                                            <strong>{comment.author_name || "Anonymous"}</strong>
+                                            <small className="text-muted ms-2">
+                                                {new Date(comment.created_at).toLocaleDateString()}
+                                            </small>
+                                            <p className="mb-0 mt-1">{comment.comment}</p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-muted mb-0">No comments yet.</p>
+                                )}
+                                <CommentPost
+                                    postId={post.id}
+                                />
+                            </div>
+                            <Comments
+                                comments={post.comments}
                                 postId={post.id}
                             />
-                        </div>
+                        </>
                     )}
                 </div>
             ))}
