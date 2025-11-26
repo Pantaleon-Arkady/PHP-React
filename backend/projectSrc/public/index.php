@@ -3,6 +3,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 $uri = rtrim(strtok($_SERVER["REQUEST_URI"], '?'), '/');
+$APIuri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 use Root\Controllers\General;
 use Root\Controllers\APIData;
@@ -11,6 +12,12 @@ $general = new General();
 $api = new APIData();
 
 $error = json_encode(["success" => false, "error" => "Method not allowed"]);
+
+if (preg_match('#^/api/posts/(\d+)/reactions$#', $APIuri, $matches) && $_SERVER["REQUEST_METHOD"] === "POST") {
+    $postId = (int)$matches[1];
+    $api->reactToPost($postId);
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     $api->handlePreflight();
