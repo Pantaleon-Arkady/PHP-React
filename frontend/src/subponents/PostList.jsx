@@ -46,11 +46,10 @@ function PostList({ posts }) {
 
     const handleLike = async (postId) => {
         try {
-
             const payload = { userId, type: "like" };
-            await postInteraction(
-                payload, postId
-            );
+
+            await postInteraction( payload, postId );
+
             navigate("/homepage", { state: { refresh: true } });
         } catch (err) {
             console.error("Like failed:", err);
@@ -59,7 +58,10 @@ function PostList({ posts }) {
 
     const handleDislike = async (postId) => {
         try {
-            await dislikePost({ author: userId, post: postId });
+            const payload = { userId, type: "dislike" }
+
+            await postInteraction( payload, postId );
+            
             navigate("/homepage", { state: { refresh: true } });
         } catch (err) {
             console.error("Dislike failed:", err);
