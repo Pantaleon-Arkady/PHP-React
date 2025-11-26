@@ -3,6 +3,7 @@ const likeUrl = "http://localhost:8080/posts-like"
 const dislikeUrl = "http://localhost:8080/posts-dislike"
 const allPosts = "http://localhost:8080/all-posts";
 const commentUrl = "http://localhost:8080/post-comment";
+const userPostInteraction = "http://localhost:8080/post-user-interaction";
 
 export async function getAllData() {
     try {
@@ -139,4 +140,32 @@ export async function createComment(payload) {
     } catch (err) {
         return { success: false, error: err.message };
     }
+}
+
+export async function postInteraction(payload, postId) {
+    try {
+
+        const res = await fetch(
+            `http://localhost:8080/api/posts/${postId}/reactions`, 
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }
+        )
+
+        if (!res.ok) {
+            return { success: false, error: error.json || json.message || "Reaction to post failed" }
+        }
+
+        const data = await res.json();
+        
+        return { success: true, data: data};
+    } catch (err) {
+        return { success: false, error: err.message };
+    }
+}
+
+export const functionName = async (props) => {
+
 }
