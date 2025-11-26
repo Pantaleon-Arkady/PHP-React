@@ -1,4 +1,4 @@
-import { deletePost, likePost, dislikePost } from "../service/DataService";
+import { deletePost, likePost, dislikePost, postInteraction } from "../service/DataService";
 import { useNavigate } from "react-router-dom";
 import EditPost from "../forms/edit";
 import { useState } from "react";
@@ -35,14 +35,27 @@ function PostList({ posts }) {
         }
     };
 
+    // const handleLike = async (postId) => {
+    //     try {
+    //         await likePost({ author: userId, post: postId });
+    //         navigate("/homepage", { state: { refresh: true } });
+    //     } catch (err) {
+    //         console.error("Like failed:", err);
+    //     }
+    // };
+
     const handleLike = async (postId) => {
         try {
-            await likePost({ author: userId, post: postId });
+
+            const payload = { userId, type: "like" };
+            await postInteraction(
+                payload, postId
+            );
             navigate("/homepage", { state: { refresh: true } });
         } catch (err) {
             console.error("Like failed:", err);
         }
-    };
+    }
 
     const handleDislike = async (postId) => {
         try {
