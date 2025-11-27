@@ -526,8 +526,6 @@ class APIData
 
     public function reactToPost($postId)
     {
-        $debug = fopen('debug.txt', 'w+');
-
         $this->addHeaders("full");
 
         $input = json_decode(file_get_contents("php://input"), true);
@@ -542,13 +540,9 @@ class APIData
         $actionType = $input['type'];
         $author = $input['userId'];
 
-        fwrite($debug, "action type: $actionType author: $author" . PHP_EOL);
-
         try {
 
             if ($actionType == "like") {
-                fwrite($debug, "if action == like" . PHP_EOL);
-
                 $opposite = Database::fetchAssoc(
                     'SELECT id FROM app_user_dislikes WHERE post = :post AND author = :author',
                     [
@@ -558,8 +552,6 @@ class APIData
                 );
 
                 if ($opposite) {
-                    fwrite($debug, "REMOVING DISLIKE RECORD" . PHP_EOL);
-                    fwrite($debug, print_r($opposite, true) . PHP_EOL);
                     Database::crudQuery(
                         'DELETE FROM app_user_dislikes WHERE id = :id',
                         ['id' => $opposite['id']]
@@ -580,7 +572,6 @@ class APIData
                 );
 
                 if ($existence) {
-                    fwrite($debug, "REMOVING LIKE RECORD" . PHP_EOL);
                     Database::crudQuery(
                         'DELETE FROM app_user_likes WHERE post = :post AND author = :author',
                         ['post' => $postId, 'author' => $author]
@@ -591,7 +582,6 @@ class APIData
                         ['id' => $postId]
                     );
                 } else {
-                    fwrite($debug, "SAVING NEW LIKE RECORD" . PHP_EOL);
                     Database::crudQuery(
                         "INSERT INTO app_user_likes (post, author) VALUES (:post, :author)",
                         ['post' => $postId, 'author' => $author]
@@ -608,7 +598,6 @@ class APIData
                     "post-interaction" => $actionType
                 ]);
             } else {
-                fwrite($debug, "action == dislike" . PHP_EOL);
                 $opposite = Database::fetchAssoc(
                     'SELECT id FROM app_user_likes WHERE post = :post AND author = :author',
                     [
@@ -618,12 +607,10 @@ class APIData
                 );
 
                 if ($opposite) {
-                    fwrite($debug, "REMOVING LIKE RECORD " . $opposite['id'] . PHP_EOL);
                     Database::crudQuery(
                         'DELETE FROM app_user_likes WHERE id = :id',
                         ['id' => $opposite['id']]
                     );
-                    fwrite($debug, "AFTER REMOVING LIKE" . PHP_EOL);
                     Database::crudQuery(
                         'UPDATE app_user_posts SET like_count = like_count - 1 WHERE id = :id',
                         ['id' => $postId]
@@ -637,9 +624,7 @@ class APIData
                         'author' => $author
                     ]
                 );
-                fwrite($debug, "CHECKING IF DISLIKE RECORD EXISTS" . PHP_EOL);
                 if ($existence) {
-                    fwrite($debug, "REMOVING DISLIKE RECORD" . PHP_EOL);
                     Database::crudQuery(
                         'DELETE FROM app_user_dislikes WHERE post = :post AND author = :author',
                         ['post' => $postId, 'author' => $author]
@@ -650,7 +635,6 @@ class APIData
                         ['id' => $postId]
                     );
                 } else {
-                    fwrite($debug, "SAVING DISLIKE RECORD" . PHP_EOL);
                     Database::crudQuery(
                         "INSERT INTO app_user_dislikes (post, author) VALUES (:post, :author)",
                         ['post' => $postId, 'author' => $author]
