@@ -97,11 +97,14 @@ class APIData
             $table = $this->getTableFromUri();
             $data = json_decode(file_get_contents('php://input'), true);
 
+            $namemail = $data['namemail'];
+            $hashedPs = md5($data['password']);
+
             $user = Database::fetchAssoc(
                 "SELECT * FROM {$table} WHERE (email = :namemail OR username = :namemail) AND password = :password",
                 [
-                    'namemail' => $data['namemail'],
-                    'password' => md5($data['password'])
+                    'namemail' => $namemail,
+                    'password' => $hashedPs
                 ]
             );
 
@@ -111,10 +114,26 @@ class APIData
                     'user' => $user[0] ?? $user, // if it's an array of rows
                 ]);
             } else {
-                echo json_encode([
-                    'login' => false,
-                    'error' => 'Invalid username or password'
-                ]);
+
+                $correctNamemail = Database::fetchAssoc(
+                    'SELECT * FROM app_user WHERE (email = :namemail OR username = :namemail)',
+                    ['namemail' => $namemail]
+                );
+
+                if ($correctNamemail && count($correctNamemail) > 0) {
+                    echo json_encode([
+                        'login' => false,
+                        'namemail' => true,
+                        'password' => false
+                    ]);
+                } else {
+
+                    echo json_encode([
+                        'login' => false,
+                        'namemail' => false,
+                        'password' => true
+                    ]);
+                }
             }
         } catch (\Exception $e) {
             echo json_encode([
