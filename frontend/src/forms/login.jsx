@@ -8,6 +8,7 @@ function LogInForm({ userData }) {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
+    const [serverError, setServerError] = useState("");
 
     function validateForm() {
         const newErrors = {};
@@ -55,12 +56,21 @@ function LogInForm({ userData }) {
 
                 navigate("/homepage");
             } else {
-                console.error("Login failed");
-                if (result.data.namemail) {
-                    console.log("wrong password");
-                } else if (result.data.password) {
-                    console.log("username or email does not match");
+                // console.error("Login failed");
+                // if (result.data.namemail) {
+                //     console.log("wrong password");
+                // } else if (result.data.password) {
+                //     console.log("username or email does not match");
+                // }
+                let message = "Login failed. Please try again.";
+
+                if (result.data?.namemail) {
+                    message = "Wrong password.";
+                } else if (result.data?.password) {
+                    message = "Username or email not found.";
                 }
+
+                setServerError(message);
             }
 
         } catch (error) {
@@ -102,6 +112,12 @@ function LogInForm({ userData }) {
                     Log In
                 </Button>
             </div>
+
+            {serverError && (
+                <div className="text-light bg-danger rounded py-1 px-3 mt-1">
+                    {serverError}
+                </div>
+            )}
         </Form>
     )
 }
