@@ -38,3 +38,15 @@ CREATE TABLE IF NOT EXISTS app_user_comments (
     created_at TIMESTAMP,
     modified_at TIMESTAMP
 );
+
+CREATE PROCEDURE resetLikesData()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- Your SQL statements here
+    RAISE NOTICE 'This procedure was executed without parameters.';
+    UPDATE app_user_posts SET like_count = 0, dislike_count = 0 WHERE id = 5;
+    TRUNCATE app_user_dislikes;
+    TRUNCATE app_user_likes;
+END;
+$$;
