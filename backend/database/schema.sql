@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS app_user_comments (
     modified_at TIMESTAMP
 );
 
+DROP PROCEDURE IF EXISTS resetLikesData;
 CREATE PROCEDURE resetLikesData()
 LANGUAGE plpgsql
 AS $$
@@ -50,3 +51,18 @@ BEGIN
     TRUNCATE app_user_likes;
 END;
 $$;
+
+DROP PROCEDURE IF EXISTS displayPosts;
+CREATE PROCEDURE displayPosts()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RAISE NOTICE 'Complete posts display';
+    SELECT * FROM app_user_posts;
+    SELECT * FROM app_user_likes;
+    SELECT * FROM app_user_dislikes;
+    SELECT * FROM app_user_comments;
+END;
+$$;
+
+SELECT * FROM app_user_posts; SELECT * FROM app_user_likes; SELECT * FROM app_user_dislikes; SELECT * FROM app_user_comments;
