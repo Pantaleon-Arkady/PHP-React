@@ -34,16 +34,7 @@ function PostList({ posts }) {
             alert("Error deleting post: " + err.message);
         }
     };
-
-    // const handleLike = async (postId) => {
-    //     try {
-    //         await likePost({ author: userId, post: postId });
-    //         navigate("/homepage", { state: { refresh: true } });
-    //     } catch (err) {
-    //         console.error("Like failed:", err);
-    //     }
-    // };
-
+    
     const handleLike = async (postId) => {
         try {
             const payload = { userId, type: "like" };

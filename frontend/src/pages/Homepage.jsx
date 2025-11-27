@@ -3,7 +3,7 @@ import PostList from "../subponents/PostList";
 import { getAllData } from "../service/DataService";
 import { Button } from "react-bootstrap";
 import CreatePost from "../forms/post";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Homepage() {
     const [posts, setPosts] = useState([]);
@@ -12,6 +12,7 @@ function Homepage() {
     const [createPost, setCreatePost] = useState(false);
     const [user, setUser] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
 
     async function fetchPosts() {
         setLoading(true);
@@ -46,6 +47,13 @@ function Homepage() {
         }
     }, [location.state]);
 
+    const handleLogOut = () => {
+        sessionStorage.clear("user");
+        localStorage.clear("user");
+
+        navigate("/signup", { state: { refresh: true } });
+    }
+
     return (
         <>
             {user ?
@@ -75,7 +83,9 @@ function Homepage() {
                                 <div className="homepage_left_features border"></div>
                                 <div className="homepage_left_features border"></div>
                                 <div className="homepage_left_features border"></div>
-                                <div className="homepage_left_features border"></div>
+                                <div className="homepage_left_features border">
+                                    <button onClick={() => handleLogOut()}>Log out.</button>
+                                </div>
                             </div>
                             <div className="homepage_left_sections border w-100 d-flex flex-column justify-content-around align-items-center">
                             </div>
