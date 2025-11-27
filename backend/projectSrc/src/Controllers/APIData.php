@@ -478,7 +478,8 @@ class APIData
         if (empty($input['post_id']) || empty($input['content']) || empty($input['author_id'])) {
             http_response_code(400);
             echo json_encode([
-                'success' => false, 'error' => 'Please complete required data.'
+                'success' => false,
+                'error' => 'Please complete required data.'
             ]);
         }
 
@@ -493,7 +494,8 @@ class APIData
         if (!$postExistence) {
             http_response_code(400);
             echo json_encode([
-                'success' => false, 'error' => 'There something wrong with this post'
+                'success' => false,
+                'error' => 'There something wrong with this post'
             ]);
         }
 
@@ -516,10 +518,181 @@ class APIData
                 'success' => true,
                 'comment' => $comment
             ]);
-
         } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
     }
+
+    public function reactToPost($postId)
+    {
+        $debug = fopen('debug.txt', 'w+');
+
+        $this->addHeaders("full");
+
+        $input = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($input['userId']) || empty($input['type'])) {
+            echo json_encode([
+                'success' => false,
+                'error' => 'Required inputs are not fulfilled'
+            ]);
+        }
+
+        $actionType = $input['type'];
+        $author = $input['userId'];
+
+        fwrite($debug, "action type: $actionType author: $author" . PHP_EOL);
+
+        try {
+
+            if ($actionType == "like") {
+                fwrite($debug, "if action == like" . PHP_EOL);
+
+                $opposite = Database::fetchAssoc(
+                    'SELECT id FROM app_user_dislikes WHERE post = :post AND author = :author',
+                    [
+                        'post' => $postId,
+                        'author' => $author
+                    ]
+                );
+
+                if ($opposite) {
+                    fwrite($debug, "REMOVING DISLIKE RECORD" . PHP_EOL);
+                    fwrite($debug, print_r($opposite, true) . PHP_EOL);
+                    Database::crudQuery(
+                        'DELETE FROM app_user_dislikes WHERE id = :id',
+                        ['id' => $opposite['id']]
+                    );
+
+                    Database::crudQuery(
+                        'UPDATE app_user_posts SET dislike_count = dislike_count - 1 WHERE id = :id',
+                        ['id' => $postId]
+                    );
+                }
+
+                $existence = Database::fetchAssoc(
+                    'SELECT id FROM app_user_likes WHERE post = :post AND author = :author',
+                    [
+                        'post' => $postId,
+                        'author' => $author
+                    ]
+                );
+
+                if ($existence) {
+                    fwrite($debug, "REMOVING LIKE RECORD" . PHP_EOL);
+                    Database::crudQuery(
+                        'DELETE FROM app_user_likes WHERE post = :post AND author = :author',
+                        ['post' => $postId, 'author' => $author]
+                    );
+
+                    Database::crudQuery(
+                        "UPDATE app_user_posts SET like_count = like_count - 1 WHERE id = :id AND like_count > 0",
+                        ['id' => $postId]
+                    );
+                } else {
+                    fwrite($debug, "SAVING NEW LIKE RECORD" . PHP_EOL);
+                    Database::crudQuery(
+                        "INSERT INTO app_user_likes (post, author) VALUES (:post, :author)",
+                        ['post' => $postId, 'author' => $author]
+                    );
+
+                    Database::crudQuery(
+                        "UPDATE app_user_posts SET like_count = like_count + 1 WHERE id = :id",
+                        ['id' => $postId]
+                    );
+                }
+
+                echo json_encode([
+                    "success" => true,
+                    "post-interaction" => $actionType
+                ]);
+            } else {
+                fwrite($debug, "action == dislike" . PHP_EOL);
+                $opposite = Database::fetchAssoc(
+                    'SELECT id FROM app_user_likes WHERE post = :post AND author = :author',
+                    [
+                        'post' => $postId,
+                        'author' => $author
+                    ]
+                );
+
+                if ($opposite) {
+                    fwrite($debug, "REMOVING LIKE RECORD " . $opposite['id'] . PHP_EOL);
+                    Database::crudQuery(
+                        'DELETE FROM app_user_likes WHERE id = :id',
+                        ['id' => $opposite['id']]
+                    );
+                    fwrite($debug, "AFTER REMOVING LIKE" . PHP_EOL);
+                    Database::crudQuery(
+                        'UPDATE app_user_posts SET like_count = like_count - 1 WHERE id = :id',
+                        ['id' => $postId]
+                    );
+                }
+
+                $existence = Database::fetchAssoc(
+                    'SELECT id FROM app_user_dislikes WHERE post = :post AND author = :author',
+                    [
+                        'post' => $postId,
+                        'author' => $author
+                    ]
+                );
+                fwrite($debug, "CHECKING IF DISLIKE RECORD EXISTS" . PHP_EOL);
+                if ($existence) {
+                    fwrite($debug, "REMOVING DISLIKE RECORD" . PHP_EOL);
+                    Database::crudQuery(
+                        'DELETE FROM app_user_dislikes WHERE post = :post AND author = :author',
+                        ['post' => $postId, 'author' => $author]
+                    );
+
+                    Database::crudQuery(
+                        "UPDATE app_user_posts SET dislike_count = dislike_count - 1 WHERE id = :id AND dislike_count > 0",
+                        ['id' => $postId]
+                    );
+                } else {
+                    fwrite($debug, "SAVING DISLIKE RECORD" . PHP_EOL);
+                    Database::crudQuery(
+                        "INSERT INTO app_user_dislikes (post, author) VALUES (:post, :author)",
+                        ['post' => $postId, 'author' => $author]
+                    );
+
+                    Database::crudQuery(
+                        "UPDATE app_user_posts SET dislike_count = dislike_count + 1 WHERE id = :id",
+                        ['id' => $postId]
+                    );
+                }
+
+                echo json_encode([
+                    "success" => true,
+                    "post-interaction" => $actionType
+                ]);
+            }
+        } catch (\Exception $e) {
+
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
+    }
+}
+
+
+
+//  pseudocode 
+function handleLikes(int $postId, bool $like = true)
+{
+    // IF $like = true
+
+    // query for user dislike
+    // if dislike exists, delete dislike
+
+    // query for user like on post,  where author = id, post = postid
+    // if like exists, delete like; return
+
+    // else # case when user dislike
+
+    // query for user like
+    // if like exists, delete like
+
+    // query for user dislike on post
+    // if dislike esists, delete dislike, return
 }

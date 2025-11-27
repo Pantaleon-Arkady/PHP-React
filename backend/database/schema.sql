@@ -65,4 +65,4 @@ BEGIN
 END;
 $$;
 
-SELECT * FROM app_user_posts; SELECT * FROM app_user_likes; SELECT * FROM app_user_dislikes; SELECT * FROM app_user_comments;
+-- SELECT * FROM app_user_posts; SELECT * FROM app_user_likes; SELECT * FROM app_user_dislikes; SELECT * FROM app_user_comments;
