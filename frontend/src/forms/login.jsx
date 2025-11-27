@@ -27,6 +27,8 @@ function LogInForm({ userData }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
+        setServerError("");
+
         const validationErrors = validateForm();
         setErrors(validationErrors);
 
@@ -56,12 +58,6 @@ function LogInForm({ userData }) {
 
                 navigate("/homepage");
             } else {
-                // console.error("Login failed");
-                // if (result.data.namemail) {
-                //     console.log("wrong password");
-                // } else if (result.data.password) {
-                //     console.log("username or email does not match");
-                // }
                 let message = "Login failed. Please try again.";
 
                 if (result.data?.namemail) {
