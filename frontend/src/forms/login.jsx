@@ -49,18 +49,23 @@ function LogInForm({ userData }) {
                 };
 
                 userData(loggedUser);
+
+                setNameMail("");
+                setPassword("");
+
+                navigate("/homepage");
             } else {
                 console.error("Login failed");
+                if (result.data.namemail) {
+                    console.log("wrong password");
+                } else if (result.data.password) {
+                    console.log("username or email does not match");
+                }
             }
 
         } catch (error) {
             console.error(error);
         }
-
-        setNameMail("");
-        setPassword("");
-
-        navigate("/homepage");
     };
 
     return (
