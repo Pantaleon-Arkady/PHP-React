@@ -47,6 +47,16 @@ function Homepage() {
         }
     }, [location.state]);
 
+    const userData = JSON.parse(sessionStorage.getItem("user") || "null");
+    if (!userData) {
+        return <div>Not logged in</div>;
+    }
+    const userId = userData.id;
+
+    const handleProfile = (userId) => {
+        navigate(`/profilepage/${userId}`);
+    }
+
     const handleLogOut = () => {
         sessionStorage.clear("user");
         localStorage.clear("user");
@@ -65,7 +75,7 @@ function Homepage() {
                         <div className="homepage_head_two border d-flex justify-content-center align-items-center">
                             <Button
                                 className="homepage_head_center"
-                                variant="secondary"
+                                variant="primary"
                                 onClick={() => setCreatePost(true)}
                             >
                                 Create a Post?
@@ -80,11 +90,20 @@ function Homepage() {
                     <div className="homepage_body_div border d-flex flex-row">
                         <div className="homepage_left border d-flex flex-column">
                             <div className="homepage_left_sections border w-100 d-flex flex-column justify-content-around align-items-center">
+                                <div className="homepage_left_features">
+                                    <Button onClick={() => handleProfile(userId)}>
+                                        Profile
+                                    </Button>
+                                </div>
                                 <div className="homepage_left_features border"></div>
                                 <div className="homepage_left_features border"></div>
-                                <div className="homepage_left_features border"></div>
-                                <div className="homepage_left_features border">
-                                    <button onClick={() => handleLogOut()}>Log out.</button>
+                                <div className="homepage_left_features">
+                                    <button 
+                                        onClick={() => handleLogOut()}
+                                        className="btn btn-danger rounded"
+                                    >
+                                        Log out
+                                    </button>
                                 </div>
                             </div>
                             <div className="homepage_left_sections border w-100 d-flex flex-column justify-content-around align-items-center">
