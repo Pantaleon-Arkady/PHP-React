@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import AuthPage from "./pages/AuthPage";
 import Homepage from "./pages/Homepage";
+import ProfilePage from "./pages/ProfilePage";
 
 function LandingPage() {
     
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/signup" element={<AuthPage />} />
                 <Route path="/homepage" element={<Homepage />} />
+                <Route path="/profilepage/:userId" element={<ProfilePage />} />
             </Routes>
         </Router>
     )
