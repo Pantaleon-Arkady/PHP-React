@@ -94,7 +94,7 @@ function PostList({ posts }) {
 
                         <div className="dropdown">
                             <button
-                                className="btn btn-primary dropdown-toggle btn-sm"
+                                className="btn btn-secondary dropdown-toggle btn-sm"
                                 data-bs-toggle="dropdown"
                             >
                                 Mod

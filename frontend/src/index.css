@@ -141,6 +141,32 @@
     width: 25%;
 }
 
+/* Profile Page */
+
+.profile_main_div {
+    display: flex;
+    flex-flow: row;
+}
+
+.profile_left {
+    width: 18%;
+}
+
+.profile_right {
+    width: 82%;
+}
+
+.profile_display {
+    display: flex;
+    flex-flow: row;
+}
+
+.profile_img_div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media (max-width: 700px) {
 
     /* .mobile_auth_parent {
